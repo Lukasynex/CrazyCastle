@@ -2,9 +2,8 @@ package com.lukasyno.crazycastle;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import com.lukasyno.crazycastle.Character.GESTURE;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -13,7 +12,14 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
-
+/**
+ * TODO:
+ * castle engine fix
+ * door moving around fix
+ * 
+ * @author lukasz
+ *
+ */
 public class MainActivity extends Activity {
 	/**
 	 * custom classes for game!!!1
@@ -33,13 +39,14 @@ public class MainActivity extends Activity {
 	int PreviousStage = 0;
 	float X0,Y0;
 	int FingerSize = 100;
-    @Override
+    @SuppressLint("UseValueOf") @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		CrazyCastle = (CastleEngine)findViewById(R.id.castle_view);
 		character = new Character(this);
-		character.CurrentCharacterEntity.setX(character.CurrentCharacterEntity.getX()+100);
+		character.CurrentCharacterEntity.setX(character.CurrentCharacterEntity.getX()+111);
+		//character.CurrentCharacterEntity.setX(character.CurrentCharacterEntity.getX()+100);
 //		ImageView bugsL = (ImageView)findViewById(R.id.Bunny);
 //		ImageView bugsR = (ImageView)findViewById(R.id.Bunny_Mirror);
 //		ImageView carrot = (ImageView)findViewById(R.id.Carrot);
@@ -109,10 +116,10 @@ public class MainActivity extends Activity {
     public float AbsDiff(float x,float y){
     	return (x>y) ? (x-y) : (y-x);
     }
-    public void setMirrorProperly(ImageView invisible, ImageView visible){
-    	invisible.setY(visible.getY()-character.DEATH_ZONE);
-    	invisible.setX(visible.getX());
-	}
+//    public void setMirrorProperly(ImageView invisible, ImageView visible){
+//    	invisible.setY(visible.getY()-character.DEATH_ZONE);
+//    	invisible.setX(visible.getX());
+//	}
     @Override
 	public boolean onTouchEvent(MotionEvent event) {
 		super.onTouchEvent(event);
@@ -132,89 +139,96 @@ public class MainActivity extends Activity {
 			float FH = CrazyCastle.Floor_Height;
 			float Y = event.getY() - FingerSize;
 			//if we want to go downstairs to stage 1:
-			if(CurrentStage==0 &&
-			   ref.getX()>pt.DoorStart && 
-			   ref.getX() < pt.DoorEnd &&
-			   6*FH < Y){
-				CurrentStage=1;
-				PreviousStage = 0;
-			    pt=list.get(CurrentStage);
-			    ref.setX(pt.DoorStart);
-			    ref.setY((11-3)*FH);
-			    setMirrorProperly(refMirror,ref);
-			}
-			//if we want to go downstairs to stage 2:
-			else if(CurrentStage==1 &&
-					   ref.getX()>pt.DoorStart && 
-					   ref.getX() < pt.DoorEnd &&
-					   12*FH<Y){
-				CurrentStage=2;
-				PreviousStage = 1;
-			    pt=list.get(CurrentStage);
-			    ref.setX(pt.DoorStart);
-			    ref.setY((17-3)*FH);
-			    setMirrorProperly(refMirror,ref);
-			    }
-
-			//if we want to go upstairs to stage 0:
-			else if(CurrentStage==1 &&
-					   ref.getX()>pt.DoorStart && 
-					   ref.getX() < pt.DoorEnd &&
-					   6*FH>Y){
-				CurrentStage=0;
-				PreviousStage = 1;
-			    pt=list.get(CurrentStage);
-			    ref.setX(pt.DoorStart);
-			    ref.setY((5-3)*FH);
-			    setMirrorProperly(refMirror,ref);
-			}
-
-			//if we want to go upstairs to stage 1:
-			else if(CurrentStage==2 &&
-					   ref.getX()>pt.DoorStart && 
-					   ref.getX() < pt.DoorEnd &&
-					   12*FH>Y){
-				CurrentStage=1;
-				PreviousStage = 2;
-			    pt=list.get(CurrentStage);
-			    ref.setX(pt.DoorStart);
-			    ref.setY((11-3)*FH);
-			    setMirrorProperly(refMirror,ref);
-			}
-			if(AnimationRight.getX()>event.getX()){
-				if(character.DirectionLeft){ //if left, then left, right is invisible on the screen
-					AnimationLeft.setX(AnimationLeft.getX()-BunnyStep);
-					AnimationRight.setX(AnimationLeft.getX());
-					AnimationLeft.setY(AnimationLeft.getY());
-					AnimationRight.setY(AnimationLeft.getY()+HEIGHT);
-				}
-				else{//if right then left:
-					AnimationRight.setX(AnimationLeft.getX()-BunnyStep);
-					AnimationLeft.setX(AnimationRight.getX());
-					AnimationRight.setY(AnimationRight.getY()+HEIGHT);
-					AnimationLeft.setY(AnimationRight.getY()-HEIGHT);
-				}
+//			if(CurrentStage==0 &&
+//			   ref.getX()>pt.DoorStart && 
+//			   ref.getX() < pt.DoorEnd &&
+//			   6*FH < Y){
+//				CurrentStage=1;
+//				PreviousStage = 0;
+//			    pt=list.get(CurrentStage);
+//			    ref.setX(pt.DoorStart);
+//			    ref.setY((11-3)*FH);
+//			    setMirrorProperly(refMirror,ref);
+//			}
+//			//if we want to go downstairs to stage 2:
+//			else if(CurrentStage==1 &&
+//					   ref.getX()>pt.DoorStart && 
+//					   ref.getX() < pt.DoorEnd &&
+//					   12*FH<Y){
+//				CurrentStage=2;
+//				PreviousStage = 1;
+//			    pt=list.get(CurrentStage);
+//			    ref.setX(pt.DoorStart);
+//			    ref.setY((17-3)*FH);
+//			    setMirrorProperly(refMirror,ref);
+//			    }
+//
+//			//if we want to go upstairs to stage 0:
+//			else if(CurrentStage==1 &&
+//					   ref.getX()>pt.DoorStart && 
+//					   ref.getX() < pt.DoorEnd &&
+//					   6*FH>Y){
+//				CurrentStage=0;
+//				PreviousStage = 1;
+//			    pt=list.get(CurrentStage);
+//			    ref.setX(pt.DoorStart);
+//			    ref.setY((5-3)*FH);
+//			    setMirrorProperly(refMirror,ref);
+//			}
+//
+//			//if we want to go upstairs to stage 1:
+//			else if(CurrentStage==2 &&
+//					   ref.getX()>pt.DoorStart && 
+//					   ref.getX() < pt.DoorEnd &&
+//					   12*FH>Y){
+//				CurrentStage=1;
+//				PreviousStage = 2;
+//			    pt=list.get(CurrentStage);
+//			    ref.setX(pt.DoorStart);
+//			    ref.setY((11-3)*FH);
+//			    setMirrorProperly(refMirror,ref);
+//			}
+//			character.setWalkStatus(character.DealWithTouchableLogic(event));
+			
+			///start
+			if(character.CurrentCharacterEntity.getX() > event.getX()){
+//				if(character.DirectionLeft){ //if left, then left, right is invisible on the screen
+//					AnimationLeft.setX(AnimationLeft.getX()-BunnyStep);
+//					AnimationRight.setX(AnimationLeft.getX());
+//					AnimationLeft.setY(AnimationLeft.getY());
+//					AnimationRight.setY(AnimationLeft.getY()+HEIGHT);
+//				}
+//				else{//if right then left:
+//					AnimationRight.setX(AnimationLeft.getX()-BunnyStep);
+//					AnimationLeft.setX(AnimationRight.getX());
+//					AnimationRight.setY(AnimationRight.getY()+HEIGHT);
+//					AnimationLeft.setY(AnimationRight.getY()-HEIGHT);
+//				}
+				character.setAnimation(GESTURE.RIGHTWALK);
 				character.DirectionLeft=true;
 				character.setWalkStatus(GESTURE.LEFTWALK);
 			}
-			if(AnimationRight.getX()<event.getX()){
-				if(!character.DirectionLeft){ //if right then right, left is invisible on the screen
-					AnimationRight.setX(AnimationRight.getX()+BunnyStep);
-					AnimationLeft.setX(AnimationRight.getX());
-					
-					AnimationRight.setY(AnimationRight.getY());
-					AnimationLeft.setY(AnimationRight.getY()+HEIGHT);
-				}
-				else{//if left then right
-					AnimationRight.setX(AnimationLeft.getX()+BunnyStep);
-					AnimationLeft.setX(AnimationRight.getX());
-					
-					AnimationRight.setY(AnimationRight.getY()-HEIGHT);
-					AnimationLeft.setY(AnimationRight.getY()+HEIGHT);
-				}	
+			else if(character.CurrentCharacterEntity.getX() < event.getX()){
+//				if(!character.DirectionLeft){ //if right then right, left is invisible on the screen
+//					AnimationRight.setX(AnimationRight.getX()+BunnyStep);
+//					AnimationLeft.setX(AnimationRight.getX());
+//					
+//					AnimationRight.setY(AnimationRight.getY());
+//					AnimationLeft.setY(AnimationRight.getY()+HEIGHT);
+//				}
+//				else{//if left then right
+//					AnimationRight.setX(AnimationLeft.getX()+BunnyStep);
+//					AnimationLeft.setX(AnimationRight.getX());
+//					
+//					AnimationRight.setY(AnimationRight.getY()-HEIGHT);
+//					AnimationLeft.setY(AnimationRight.getY()+HEIGHT);
+//				}	
+				character.setAnimation(GESTURE.LEFTWALK);
 				character.DirectionLeft=false;
 				character.setWalkStatus(GESTURE.RIGHTWALK);
 			}
+			
+			
 //			AnimationDrawable animR = (AnimationDrawable)AnimationRight.getDrawable();
 //			animR.start();
 //			AnimationDrawable animL = (AnimationDrawable)AnimationLeft.getDrawable();
@@ -246,7 +260,7 @@ public class MainActivity extends Activity {
     	ImageView bugsR = (ImageView)findViewById(R.id.Bunny_Mirror);
     	bugsL.setX(X0);
     	bugsL.setY(2*CrazyCastle.Floor_Height);
-		setMirrorProperly(bugsR, bugsL);
+		character.setMirrorProperly(bugsR, bugsL);
 		AnimationDrawable animR = (AnimationDrawable)bugsL.getDrawable();
 		animR.start();
 		AnimationDrawable animL = (AnimationDrawable)bugsR.getDrawable();

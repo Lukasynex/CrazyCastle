@@ -4,6 +4,7 @@ import com.lukasyno.crazycastle.Character.GESTURE;
 
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 
 public class Character {
@@ -25,49 +26,87 @@ public class Character {
 		center_X = x + CharacterRotateLeft.getWidth()/2.0;
 		center_Y = y + CharacterRotateLeft.getHeight()/2.0;
 	}
+	private void UpdatePos(){
+		x = CurrentCharacterEntity.getX();
+		y = CurrentCharacterEntity.getY();
+	}
 	public enum GESTURE {
 		LEFTWALK, RIGHTWALK, STOP, DEATH, TRANSPARENT
 	};
 
-	private void stopAnimation() {
-		CharacterLeftAnimation.stop();
-		CharacterRightAnimation.stop();
-		animationStopped = true;
-	}
-	public void setWalkStatus(GESTURE g){
-		WalkStatus = g;
-	}
-	private void startAnimation() {
-		CharacterLeftAnimation = (AnimationDrawable)CharacterRotateLeft.getDrawable();
-		CharacterLeftAnimation.start();
-		
-		CharacterRightAnimation = (AnimationDrawable)CharacterRotateRight.getDrawable();
-		CharacterRightAnimation.start();
-		animationStopped = false;
-	}
+	
 	public static final int DEATH_ZONE = 10000;
 	private static final int STEP = 10;
 	private static final float STEP_DX = 1.5f;
 	
 	private static final int RUN = 20;
 	
-	
+//	public GESTURE DealWithTouchableLogic(MotionEvent event){
+//		if(CharacterRotateRight.getX()>event.getX()){
+//			if(DirectionLeft){ //if left, then left, right is invisible on the screen
+//				CharacterRotateLeft.setX(CharacterRotateLeft.getX()-STEP_DX);
+//				CharacterRotateRight.setX(CharacterRotateLeft.getX());
+//				CharacterRotateLeft.setY(CharacterRotateLeft.getY());
+//				CharacterRotateRight.setY(CharacterRotateLeft.getY()+DEATH_ZONE);
+//			}
+//			else{//if right then left:
+//				CharacterRotateRight.setX(CharacterRotateLeft.getX()-STEP_DX);
+//				CharacterRotateLeft.setX(CharacterRotateRight.getX());
+//				CharacterRotateRight.setY(CharacterRotateRight.getY()+DEATH_ZONE);
+//				CharacterRotateLeft.setY(CharacterRotateRight.getY()-DEATH_ZONE);
+//			}
+//			DirectionLeft=true;
+////			setWalkStatus(GESTURE.LEFTWALK);
+//			//WalkStatus = GESTURE.LEFTWALK;
+//			return GESTURE.LEFTWALK;
+//		}
+//		if(CharacterRotateRight.getX()<event.getX()){
+//			if(!DirectionLeft){ //if right then right, left is invisible on the screen
+//				CharacterRotateRight.setX(CharacterRotateRight.getX()+STEP_DX);
+//				CharacterRotateLeft.setX(CharacterRotateRight.getX());
+//				
+//				CharacterRotateRight.setY(CharacterRotateRight.getY());
+//				CharacterRotateLeft.setY(CharacterRotateRight.getY()+DEATH_ZONE);
+//			}
+//			else{//if left then right
+//				CharacterRotateRight.setX(CharacterRotateLeft.getX()+STEP_DX);
+//				CharacterRotateLeft.setX(CharacterRotateRight.getX());
+//				
+//				CharacterRotateRight.setY(CharacterRotateRight.getY()-DEATH_ZONE);
+//				CharacterRotateLeft.setY(CharacterRotateRight.getY()+DEATH_ZONE);
+//			}	
+//			DirectionLeft=false;
+//			//WalkStatus = GESTURE.RIGHTWALK;
+//			
+//			//setWalkStatus(GESTURE.RIGHTWALK);
+//			return GESTURE.RIGHTWALK;
+//		}
+//		return GESTURE.RIGHTWALK;
+//	}
 	public Character(Activity context){
 		this.context = context;
 		CharacterRotateLeft = (ImageView)context.findViewById(R.id.Bunny);
 		CharacterRotateRight = (ImageView)context.findViewById(R.id.Bunny_Mirror);
 		CurrentCharacterEntity = CharacterRotateLeft;
 		CharacterRotateRight.setY(DEATH_ZONE);
+		setupAnimation();
+		setPosition(CharacterRotateLeft.getX(), CharacterRotateLeft.getY());
 	}
-	public void setPosition(double dx, double dy){
+	private void setPosition(double dx, double dy){
 		x = dx; y = dy;
 	}
+	public void setMirrorProperly(ImageView invisible, ImageView visible){
+    	invisible.setY(visible.getY()-DEATH_ZONE);
+    	invisible.setX(visible.getX());
+	}
 	public void walk(GESTURE type){
+		UpdatePos();
 		switch(type){
 		case LEFTWALK:{
 			CurrentCharacterEntity.setX(CurrentCharacterEntity.getX()-STEP_DX);
 			if(animationStopped)
 				startAnimation();
+			
 			break;
 		}
 		case RIGHTWALK:{
@@ -83,25 +122,29 @@ public class Character {
 		default:{
 			break;
 		}
-		
 		}
 	}
 	public void setAnimation(GESTURE type){
+		float dx = CurrentCharacterEntity.getX();
+		float dy = CurrentCharacterEntity.getY();
+		
 		switch(type){
 		case LEFTWALK :{
-			CharacterRotateLeft.setX((float)x);
-			CharacterRotateLeft.setY((float)y);
+			CharacterRotateLeft.setX((float)dx);
+			CharacterRotateLeft.setY((float)dy);
 			CharacterRotateRight.setX(DEATH_ZONE);
 			CharacterRotateRight.setY(DEATH_ZONE);
 			DirectionLeft = true;
+			CurrentCharacterEntity = CharacterRotateLeft;
 			break;
 		}
 		case RIGHTWALK :{
-			CharacterRotateRight.setX((float)x);
-			CharacterRotateRight.setY((float)y);
+			CharacterRotateRight.setX((float)dx);
+			CharacterRotateRight.setY((float)dy);
 			CharacterRotateLeft.setX(DEATH_ZONE);
 			CharacterRotateLeft.setY(DEATH_ZONE);
 			DirectionLeft = false;
+			CurrentCharacterEntity = CharacterRotateRight;
 			break;
 		}
 		case STOP :{
@@ -109,5 +152,25 @@ public class Character {
 		}
 		
 		}
+	}
+
+	private void stopAnimation() {
+		CharacterLeftAnimation.stop();
+		CharacterRightAnimation.stop();
+		animationStopped = true;
+	}
+	private void setupAnimation(){
+		CharacterLeftAnimation = (AnimationDrawable)CharacterRotateLeft.getDrawable();
+		CharacterRightAnimation = (AnimationDrawable)CharacterRotateRight.getDrawable();
+		startAnimation();
+		stopAnimation();
+	}
+	private void startAnimation() {
+		CharacterLeftAnimation.start();
+		CharacterRightAnimation.start();
+		animationStopped = false;
+	}
+	public void setWalkStatus(GESTURE f){
+		WalkStatus = f;
 	}
 }
