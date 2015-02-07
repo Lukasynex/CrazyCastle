@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+android:oneshot="false"
+>
+<item
+android:drawable="@drawable/bugs_walk_01r"
+android:duration="85"/>
+<item
+android:drawable="@drawable/bugs_walk_02r"
+android:duration="85"/>
+<item
+android:drawable="@drawable/bugs_walk_03r"
+android:duration="85"/>
+<item
+android:drawable="@drawable/bugs_walk_04r"
+android:duration="85"/>
+<item
+android:drawable="@drawable/bugs_walk_05r"
+android:duration="85"/>
+<item
+android:drawable="@drawable/bugs_walk_06r"
+android:duration="85"/>
+<item
+android:drawable="@drawable/bugs_walk_07r"
+android:duration="85"/>
+<item
+android:drawable="@drawable/bugs_walk_08r"
+android:duration="85"/>
+
+
+</animation-list>
