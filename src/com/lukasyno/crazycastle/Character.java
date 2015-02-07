@@ -1,4 +1,6 @@
-package com.example.epilepsy;
+package com.lukasyno.crazycastle;
+
+import com.lukasyno.crazycastle.Character.GESTURE;
 
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
@@ -10,11 +12,14 @@ public class Character {
 	private double y;
 	private double center_X;
 	private double center_Y;
-	private boolean DirectionLeft = true;
+	public boolean DirectionLeft = true;
+	private boolean animationStopped = true;
 	private ImageView CharacterRotateLeft;
+	public ImageView CurrentCharacterEntity;
 	private ImageView CharacterRotateRight;// = (ImageView)findViewById(R.id.Bunny_Mirror);
 	private AnimationDrawable CharacterLeftAnimation;
 	private AnimationDrawable CharacterRightAnimation;
+	public GESTURE WalkStatus = GESTURE.STOP;
 	
 	private void UpdateCenterPosition(){
 		center_X = x + CharacterRotateLeft.getWidth()/2.0;
@@ -23,16 +28,27 @@ public class Character {
 	public enum GESTURE {
 		LEFTWALK, RIGHTWALK, STOP, DEATH, TRANSPARENT
 	};
-	private void setupAnimation() {
+
+	private void stopAnimation() {
+		CharacterLeftAnimation.stop();
+		CharacterRightAnimation.stop();
+		animationStopped = true;
+	}
+	public void setWalkStatus(GESTURE g){
+		WalkStatus = g;
+	}
+	private void startAnimation() {
 		CharacterLeftAnimation = (AnimationDrawable)CharacterRotateLeft.getDrawable();
 		CharacterLeftAnimation.start();
 		
 		CharacterRightAnimation = (AnimationDrawable)CharacterRotateRight.getDrawable();
 		CharacterRightAnimation.start();
-		
+		animationStopped = false;
 	}
-	private static final int DEATH_ZONE = 10000;
+	public static final int DEATH_ZONE = 10000;
 	private static final int STEP = 10;
+	private static final float STEP_DX = 1.5f;
+	
 	private static final int RUN = 20;
 	
 	
@@ -40,11 +56,36 @@ public class Character {
 		this.context = context;
 		CharacterRotateLeft = (ImageView)context.findViewById(R.id.Bunny);
 		CharacterRotateRight = (ImageView)context.findViewById(R.id.Bunny_Mirror);
+		CurrentCharacterEntity = CharacterRotateLeft;
+		CharacterRotateRight.setY(DEATH_ZONE);
 	}
 	public void setPosition(double dx, double dy){
 		x = dx; y = dy;
 	}
-	
+	public void walk(GESTURE type){
+		switch(type){
+		case LEFTWALK:{
+			CurrentCharacterEntity.setX(CurrentCharacterEntity.getX()-STEP_DX);
+			if(animationStopped)
+				startAnimation();
+			break;
+		}
+		case RIGHTWALK:{
+			CurrentCharacterEntity.setX(CurrentCharacterEntity.getX()+STEP_DX);
+			if(animationStopped)
+				startAnimation();
+			break;
+		}
+		case STOP:{
+			stopAnimation();
+			break;
+		}
+		default:{
+			break;
+		}
+		
+		}
+	}
 	public void setAnimation(GESTURE type){
 		switch(type){
 		case LEFTWALK :{

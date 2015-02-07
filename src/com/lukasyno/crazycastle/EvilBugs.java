@@ -1,4 +1,4 @@
-package com.example.epilepsy;
+package com.lukasyno.crazycastle;
 
 import android.os.Handler;
 

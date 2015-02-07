@@ -1,4 +1,4 @@
-package com.example.epilepsy;
+package com.lukasyno.crazycastle;
 
 import java.util.ArrayList;
 import java.util.Random;

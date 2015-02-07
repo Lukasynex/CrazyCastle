@@ -1,9 +1,9 @@
-package com.example.epilepsy;
+package com.lukasyno.crazycastle;
 
 import android.os.Handler;
 
 
-public class StopBugs{
+public class BugsWalks{
 	private static boolean isStarted = false;
 	private static Handler handler = new Handler();
 	private static MainActivity activity;
@@ -11,7 +11,7 @@ public class StopBugs{
 	private static Runnable stepTimer = new Runnable() { 
 		@Override
 		public void run() {
-			activity.StopWalk();
+			activity.Walk();
 			handler.postDelayed(this, 10);
 		}
 	};
