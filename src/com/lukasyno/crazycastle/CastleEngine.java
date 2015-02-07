@@ -1,7 +1,11 @@
 package com.lukasyno.crazycastle;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -28,9 +32,10 @@ public class CastleEngine extends View {
           }
         }
 	}
+	
 	private static final Rect clippingRect;
-	public static final Paint FloorPaint; //usunąłem new!
-	public static final Paint DoorPaint; //tu też
+	public static final Paint FloorPaint; 
+	public static final Paint DoorPaint; 
 	static{
 		clippingRect = new Rect();
 		FloorPaint = new Paint();
@@ -44,7 +49,13 @@ public class CastleEngine extends View {
 	int DoorHeight = 110;
 	boolean started = false;
 	float X0,Y0;
+	private static final int ROOMS_COUNT = 4;
 	Random generator = new Random();
+	//since 23:037.02.2015
+	private List<Integer> PadlockList = new ArrayList();
+	
+	private BasicScene[] AllRooms = new BasicScene[ROOMS_COUNT];
+	private int currentScene;
 	public CastleEngine(Context context) {
         super(context);
     }
@@ -53,8 +64,27 @@ public class CastleEngine extends View {
 		ScreenHeight =640;// getHeight();
 		ScreenWidth = 480;//getWidth();
 		Floor_Height = ScreenHeight/18;
+		fillPadlockSet();
 	}
-	
+	private void fillPadlockSet() {
+		for(int j = 0; j < ROOMS_COUNT; j++){
+			PadlockList.add(j);
+		}
+		long seed = System.nanoTime();
+		Collections.shuffle(PadlockList, new Random(seed));
+	}
+	public void onPopulateCastle(){
+		for(int i = 0; i < ROOMS_COUNT; i++){
+			AllRooms[i] = new BasicScene(i);
+			AllRooms[i].setRandomBuddies((Integer)PadlockList.get(3*i),
+					(Integer)PadlockList.get(3*i+1),(Integer)PadlockList.get(3*i+2) );
+		}
+		
+	}
+	public void EnterTheGates(){
+		//TODO:
+		//make Bugs ready to switch/teleport(?) between many doors
+	}
 	@Override
 	protected void onDraw(Canvas c){
 		super.onDraw(c);
@@ -85,9 +115,6 @@ public class CastleEngine extends View {
 		c.drawRect(0, (5+6*stage)*Floor_Height, ScreenWidth, (6+6*stage)*Floor_Height, FloorPaint);
 	}
 	
-	public void makeSth(){
-		
-	}
 }
 //TODO:isolate door and also create stairs
 class PointAndStage{
