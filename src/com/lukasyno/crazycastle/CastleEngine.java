@@ -19,10 +19,14 @@ public class CastleEngine extends View {
 	public enum WALL {
 		REDBRICK, PRISON, NIGHT, LAB, WIZARD
 	}
+
 	Random generator = new Random();
-//	public int x1  = (int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1),
-//				x2  = (int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1),
-//				x3  = (int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1);
+	// public int x1 = (int) (ScreenWidth/2 +
+	// ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1),
+	// x2 = (int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2)
+	// + 1),
+	// x3 = (int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2)
+	// + 1);
 	public Canvas mainCanvas = new Canvas();
 	private static final Rect clippingRect;
 	public static final Paint FloorPaint;
@@ -41,7 +45,7 @@ public class CastleEngine extends View {
 	boolean started = false;
 	float X0, Y0;
 	private static final int ROOMS_COUNT = 4;
-	
+
 	// since 23:037.02.2015
 	private List<Integer> PadlockList = new ArrayList<Integer>();
 	private BasicScene[] AllRooms = new BasicScene[ROOMS_COUNT];
@@ -56,10 +60,10 @@ public class CastleEngine extends View {
 		ScreenHeight = 640;// getHeight();
 		ScreenWidth = 480;// getWidth();
 		Floor_Height = ScreenHeight / 18;
-//		setBackgroundWall(WALL.REDBRICK);
-//		 fillPadlockSet();
-//		 onPopulateCastle();
-//		 setCurrentRoom(1);
+		// setBackgroundWall(WALL.REDBRICK);
+		// fillPadlockSet();
+		// onPopulateCastle();
+		// setCurrentRoom(1);
 	}
 
 	public CastleEngine(Context context, AttributeSet set) {
@@ -69,7 +73,7 @@ public class CastleEngine extends View {
 		ScreenWidth = 480;// getWidth();
 		Floor_Height = ScreenHeight / 18;
 
-//		setBackgroundWall(WALL.REDBRICK);
+		// setBackgroundWall(WALL.REDBRICK);
 		// fillPadlockSet();
 		// onPopulateCastle();
 		// setCurrentRoom(1);
@@ -103,62 +107,46 @@ public class CastleEngine extends View {
 		}
 	}
 
-//	public void reDrawScene(int current_scene_index) {
-//		mainCanvas.drawColor(Color.BLACK);
-//
-//		mainCanvas.getClipBounds(clippingRect);
-//		FloorPaint.setColor(currentScene.FloorColor);
-//		RedrawStage(0, mainCanvas);
-//		RedrawStage(1, mainCanvas);
-//		RedrawStage(2, mainCanvas);
-//		DoorPaint.setColor(currentScene.DoorColor);
-//		RedrawDoorAtStage(0, mainCanvas);
-//		RedrawDoorAtStage(1, mainCanvas);
-//		RedrawDoorAtStage(2, mainCanvas);
-//
-//		invalidate();
-//	}
-//	public void Start(){
-//		 fillPadlockSet();
-//		 onPopulateCastle();
-//		 setCurrentRoom(1);
-//	}
+	// public void reDrawScene(int current_scene_index) {
+	// mainCanvas.drawColor(Color.BLACK);
+	//
+	// mainCanvas.getClipBounds(clippingRect);
+	// FloorPaint.setColor(currentScene.FloorColor);
+	// RedrawStage(0, mainCanvas);
+	// RedrawStage(1, mainCanvas);
+	// RedrawStage(2, mainCanvas);
+	// DoorPaint.setColor(currentScene.DoorColor);
+	// RedrawDoorAtStage(0, mainCanvas);
+	// RedrawDoorAtStage(1, mainCanvas);
+	// RedrawDoorAtStage(2, mainCanvas);
+	//
+	// invalidate();
+	// }
+	// public void Start(){
+	// fillPadlockSet();
+	// onPopulateCastle();
+	// setCurrentRoom(1);
+	// }
 	public void setScene(BasicScene scene) {
-		
+		DoorsCoordinates.clear();
 		currentScene = scene;
 		setBackground(scene.BackgroundType);
 		invalidate();
-//	Canvas c = mainCanvas;
-//	FloorPaint.setColor(currentScene.FloorColor);
-//	DoorPaint.setColor(currentScene.DoorColor);
-//	
-//	c.getClipBounds(clippingRect);
-//	drawStage(0, c);
-//	drawStage(1, c);
-//	drawStage(2, c);
-//	drawDoorAtStage(0, c);
-//	drawDoorAtStage(1, c);
-//	drawDoorAtStage(2, c);
+
 	}
 
-
-	public void EnterTheGates() {
-		// TODO:
-		// make Bugs ready to switch/teleport(?) between many doors
-	}
 
 	@Override
 	protected void onDraw(Canvas c) {
 		super.onDraw(c);
-		if(currentScene==null){
+		if (currentScene == null) {
 			FloorPaint.setColor(Color.RED);
 			DoorPaint.setColor(Color.BLACK);
-		}
-		else{
+		} else {
 			FloorPaint.setColor(currentScene.FloorColor);
 			DoorPaint.setColor(currentScene.DoorColor);
 		}
-		
+
 		c.getClipBounds(clippingRect);
 		drawStage(0, c);
 		drawStage(1, c);
@@ -167,37 +155,32 @@ public class CastleEngine extends View {
 		drawDoorAtStage(1, c);
 		drawDoorAtStage(2, c);
 		mainCanvas = c;
-		
+
 	}
 
 	/** Draws Door(black rectangle) at stage 0, 1, 2 */
 	public void drawDoorAtStage(int stage, Canvas c) {
 		int dx = 0;
-		if(currentScene != null){
+		if (currentScene == null) {
+			dx = (int) (ScreenWidth / 2
+					+ ((generator.nextFloat() - 0.5f) * ScreenWidth / 2) + 1);
+		} else {
+
 			if (stage == 0)
 				dx = currentScene.topDoorPosition;
 			else if (stage == 1)
 				dx = currentScene.middleDoorPosition;
 			else
 				dx = currentScene.bottomDoorPosition;
-		}else{
-//			if(stage==0)
-//				dx=x1;
-//			else if(stage==1)
-//				dx=x2;
-//			else
-//				dx=x3;
-			dx = (int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1);
+
 		}
-		
-		
+
 		c.drawRect(dx, (4 + 6 * stage) * Floor_Height - DoorHeight, dx
 				+ DoorWidth, (5 + 6 * stage) * Floor_Height, DoorPaint);
 		PointAndStage newDoor = new PointAndStage(dx, dx + DoorWidth, stage);
 		DoorsCoordinates.add(newDoor);
-		
-	}
 
+	}
 
 	/** Draws Floor 0,1,2 */
 	public void drawStage(int stage, Canvas c) {
@@ -232,7 +215,6 @@ public class CastleEngine extends View {
 		}
 		invalidate();
 	}
-
 
 }
 

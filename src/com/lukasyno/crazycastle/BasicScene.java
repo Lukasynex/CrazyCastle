@@ -5,11 +5,12 @@ import java.util.Random;
 import android.graphics.Color;
 
 public class BasicScene {
+	private Random generator = new Random();
 	public static final int COLOR_SPECTRUM = 16777215;
 
 	public final int ID;
-	public int topKey, middleKey, bottomKey, BackgroundType, topDoorPosition=150,
-			middleDoorPosition=100, bottomDoorPosition=200;
+	public int topKey, middleKey, bottomKey, BackgroundType, topDoorPosition,
+			middleDoorPosition, bottomDoorPosition;
 	// private int RoomsCount;
 
 	public int FloorColor;
@@ -29,19 +30,28 @@ public class BasicScene {
 		this.FloorColor = FloorColor;
 		this.DoorColor = DoorColor;
 	}
+	private int getRandomColor(){
+		int r = generator.nextInt(255);
+		int g = generator.nextInt(255);
+		int b = generator.nextInt(255);
+		return Color.rgb(r,g,b);
+	}
 
-	public void setValues(Random rand, int ScreenWidth) {
-//		FloorColor = rand.nextInt(COLOR_SPECTRUM);
-//		DoorColor = rand.nextInt(COLOR_SPECTRUM);
-		FloorColor = Color.WHITE;
-		DoorColor = Color.YELLOW;
+	public void setValues(int ScreenWidth) {
+		FloorColor = getRandomColor();
+		DoorColor = Color.rgb(255-Color.red(FloorColor), 
+				255-Color.green(FloorColor), 255-Color.blue(FloorColor));
+//		FloorColor = Color.WHITE;
+//		DoorColor = Color.YELLOW;
 		BackgroundType = (DoorColor + FloorColor) % 5;
-		topDoorPosition = (int) (ScreenWidth * (rand.nextFloat() - 0.5f) / 2
-				+ 1 + ScreenWidth / 2);
-		middleDoorPosition = (int) (ScreenWidth * (rand.nextFloat() - 0.5f) / 2
-				+ 1 + ScreenWidth / 2);
-		bottomDoorPosition = (int) (ScreenWidth * (rand.nextFloat() - 0.5f) / 2
-				+ 1 + ScreenWidth / 2);
+		
+		topDoorPosition = (int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1);
+		middleDoorPosition = (int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1);
+		bottomDoorPosition = (int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1);
+//		topDoorPosition = 10 + generator.nextInt(ScreenWidth-20);
+//		middleDoorPosition = 10 + generator.nextInt(ScreenWidth-20);//(int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1);
+//		bottomDoorPosition = 10 + generator.nextInt(ScreenWidth-20);//(int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1);
+	
 	}
 
 	public boolean isPopulatingDone() {

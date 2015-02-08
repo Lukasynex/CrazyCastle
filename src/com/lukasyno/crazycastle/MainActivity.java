@@ -20,7 +20,9 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 
 /**
- * TODO: castle engine fix door moving around fix
+ * TODO: castle engine fix door moving around fix set proper floor/door values
+ *  fix walking through door, set Bugs in proper position
+ *  to do so -> door coordinates as field in every scene
  * 
  * @author lukasz
  * 
@@ -30,16 +32,15 @@ public class MainActivity extends Activity {
 	 * custom classes for game!!!1
 	 */
 	public CastleEngine CrazyCastle;
-//	public SceneProvider Provider = new SceneProvider(4, 480);
+	// public SceneProvider Provider = new SceneProvider(4, 480);
 	Character character;
 
 	private final int ROOMS_COUNT = 4;
-	private int ScreenWidth;
+	private int ScreenWidth = 480;
 	private List<Integer> PadlockList = new ArrayList<Integer>();
-	private BasicScene[] AllRooms  = new BasicScene[ROOMS_COUNT];
+	private BasicScene[] AllRooms = new BasicScene[ROOMS_COUNT];
 	private BasicScene currentScene;
-	
-	
+
 	Random generator = new Random();
 	int BunnyStep = 20;
 	int HEIGHT = 1000;
@@ -57,15 +58,13 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		fillPadlockSet();
 		onPopulateCastle();
-		
+
 		CrazyCastle = (CastleEngine) findViewById(R.id.castle_view);
-		CrazyCastle.setBackground(getResources()
-				.getDrawable(R.drawable.wall));
-		
-		
+		CrazyCastle.setBackground(getResources().getDrawable(R.drawable.wall));
+
 		character = new Character(this);
 		character.CurrentCharacterEntity.setX(character.CurrentCharacterEntity
 				.getX() + 111);
@@ -142,10 +141,6 @@ public class MainActivity extends Activity {
 		return (x > y) ? (x - y) : (y - x);
 	}
 
-	// public void setMirrorProperly(ImageView invisible, ImageView visible){
-	// invisible.setY(visible.getY()-character.DEATH_ZONE);
-	// invisible.setX(visible.getX());
-	// }
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		super.onTouchEvent(event);
@@ -171,12 +166,12 @@ public class MainActivity extends Activity {
 					&& ref.getX() < pt.DoorEnd && 6 * FH < Y) {
 				CurrentStage = 1;
 				PreviousStage = 0;
-				
-				//BasicScene sc = new BasicScene(1, Color.BLUE, Color.WHITE);
-//				Provider.setCurrentScene(0);
+
+				// BasicScene sc = new BasicScene(1, Color.BLUE, Color.WHITE);
+				// Provider.setCurrentScene(0);
 				setCurrentScene(1);
 				CrazyCastle.setScene(currentScene);
-				
+
 				pt = list.get(CurrentStage);
 				ref.setX(pt.DoorStart);
 				ref.setY((11 - 3) * FH);
@@ -187,10 +182,10 @@ public class MainActivity extends Activity {
 					&& ref.getX() < pt.DoorEnd && 12 * FH < Y) {
 				CurrentStage = 2;
 				PreviousStage = 1;
-				
+
 				setCurrentScene(2);
 				CrazyCastle.setScene(currentScene);
-				
+
 				pt = list.get(CurrentStage);
 				ref.setX(pt.DoorStart);
 				ref.setY((17 - 3) * FH);
@@ -202,14 +197,14 @@ public class MainActivity extends Activity {
 					&& ref.getX() < pt.DoorEnd && 6 * FH > Y) {
 				CurrentStage = 0;
 				PreviousStage = 1;
-				
+
 				setCurrentScene(3);
 				CrazyCastle.setScene(currentScene);
-				
-//				Provider.setCurrentScene(1);
-//				CrazyCastle.setScene(Provider.getCurrentScene());
-				
-				//CrazyCastle.setBackgroundWall(WALL.PRISON);
+
+				// Provider.setCurrentScene(1);
+				// CrazyCastle.setScene(Provider.getCurrentScene());
+
+				// CrazyCastle.setBackgroundWall(WALL.PRISON);
 
 				pt = list.get(CurrentStage);
 				ref.setX(pt.DoorStart);
@@ -225,10 +220,9 @@ public class MainActivity extends Activity {
 
 				setCurrentScene(0);
 				CrazyCastle.setScene(currentScene);
-								
 
-				//CrazyCastle.setBackgroundWall(WALL.WIZARD);
-				
+				// CrazyCastle.setBackgroundWall(WALL.WIZARD);
+
 				pt = list.get(CurrentStage);
 				ref.setX(pt.DoorStart);
 				ref.setY((11 - 3) * FH);
@@ -299,14 +293,14 @@ public class MainActivity extends Activity {
 			if (DirectionLeftForEvil) {
 				evilLEFT.setX(evilLEFT.getX() + 1.5f);
 				evilRIGHT.setX(evilLEFT.getX());
-				evilLEFT.setY((17 - 3) * CrazyCastle.Floor_Height);
+				evilLEFT.setY((17 - 3) * CastleEngine.Floor_Height);
 				evilRIGHT.setY(evilLEFT.getY() + HEIGHT);
-				if (evilLEFT.getX() > CrazyCastle.ScreenWidth - 30)
+				if (evilLEFT.getX() > CastleEngine.ScreenWidth - 30)
 					DirectionLeftForEvil = false;
 			} else if (!DirectionLeftForEvil) {
 				evilLEFT.setX(evilLEFT.getX() - 1.5f);
 				evilRIGHT.setX(evilLEFT.getX());
-				evilRIGHT.setY((17 - 3) * CrazyCastle.Floor_Height);
+				evilRIGHT.setY((17 - 3) * CastleEngine.Floor_Height);
 				evilLEFT.setY(evilLEFT.getY() + HEIGHT);
 				if (evilLEFT.getX() < 0)
 					DirectionLeftForEvil = true;
@@ -320,26 +314,30 @@ public class MainActivity extends Activity {
 
 		}
 	}
-	public void setCurrentScene(int id){
+
+	public void setCurrentScene(int id) {
 		currentScene = AllRooms[id];
 	}
+
 	private void fillPadlockSet() {
 		PadlockList = new ArrayList<Integer>();
-		for (int j = 0; j < 3*ROOMS_COUNT; j++) {
+		for (int j = 0; j < 3 * ROOMS_COUNT; j++) {
 			PadlockList.add(j);
 		}
 		Collections.shuffle(PadlockList, generator);
 	}
-	private int randomColor(){
+
+	private int randomColor() {
 		return generator.nextInt();
 	}
+
 	private void onPopulateCastle() {
 		for (int i = 0; i < ROOMS_COUNT; i++) {
 			AllRooms[i] = new BasicScene(i);
 			AllRooms[i].setRandomBuddies((Integer) PadlockList.get(3 * i),
 					(Integer) PadlockList.get(3 * i + 1),
 					(Integer) PadlockList.get(3 * i + 2));
-			AllRooms[i].setValues(generator, ScreenWidth);
+			AllRooms[i].setValues(ScreenWidth);
 		}
 		currentScene = AllRooms[0];
 	}
