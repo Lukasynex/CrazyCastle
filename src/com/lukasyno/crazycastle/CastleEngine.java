@@ -14,19 +14,33 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
 
 public class CastleEngine extends View {
+//	public void ChangeDoor(){
+//		Animation fadeIn = new AlphaAnimation(0, 1);
+//		fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
+//		fadeIn.setDuration(1000);
+//
+//		Animation fadeOut = new AlphaAnimation(1, 0);
+//		fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
+//		fadeOut.setStartOffset(1000);
+//		fadeOut.setDuration(1000);
+//
+//		AnimationSet animation = new AnimationSet(false); //change to false
+//		animation.addAnimation(fadeIn);
+//		animation.addAnimation(fadeOut);
+//		this.setAnimation(animation);
+//	}
 	public enum WALL {
 		REDBRICK, PRISON, NIGHT, LAB, WIZARD
 	}
 
 	Random generator = new Random();
-	// public int x1 = (int) (ScreenWidth/2 +
-	// ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1),
-	// x2 = (int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2)
-	// + 1),
-	// x3 = (int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2)
-	// + 1);
 	public Canvas mainCanvas = new Canvas();
 	private static final Rect clippingRect;
 	public static final Paint FloorPaint;
@@ -37,6 +51,8 @@ public class CastleEngine extends View {
 		DoorPaint = new Paint();
 	}
 	public ArrayList<PointAndStage> DoorsCoordinates = new ArrayList<PointAndStage>();
+	
+	
 	public static int ScreenHeight;
 	public static int ScreenWidth;
 	public static int Floor_Height;
@@ -128,7 +144,10 @@ public class CastleEngine extends View {
 	// setCurrentRoom(1);
 	// }
 	public void setScene(BasicScene scene) {
-		DoorsCoordinates.clear();
+//		if(currentScene.getDoorsOnScene() != null){
+//			DoorsCoordinates.clear();
+//			DoorsCoordinates = currentScene.getDoorsOnScene();
+//		}
 		currentScene = scene;
 		setBackground(scene.BackgroundType);
 		invalidate();
@@ -214,6 +233,10 @@ public class CastleEngine extends View {
 		}
 		}
 		invalidate();
+	}
+
+	public void setDoorCoordinates(ArrayList<PointAndStage> list) {
+		DoorsCoordinates = list;
 	}
 
 }

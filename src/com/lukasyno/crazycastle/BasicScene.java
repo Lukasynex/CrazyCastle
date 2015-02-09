@@ -1,66 +1,80 @@
 package com.lukasyno.crazycastle;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import android.graphics.Color;
 
 public class BasicScene {
+	private static int indexForScenes = 0;
+	private ArrayList<PointAndStage> DoorsOnScene = new ArrayList<PointAndStage>();
 	private Random generator = new Random();
 	public static final int COLOR_SPECTRUM = 16777215;
 
 	public final int ID;
-	public int topKey, middleKey, bottomKey, BackgroundType, topDoorPosition,
+	public int topKey, middleUpKey, middleDownKey, bottomKey, BackgroundType, topDoorPosition,
 			middleDoorPosition, bottomDoorPosition;
-	// private int RoomsCount;
 
 	public int FloorColor;
 	public int DoorColor;
-
-	enum FLOORMASK {
-		TOP, MID, BOT
+	//getters & setters
+	public ArrayList<PointAndStage> getDoorsOnScene(){
+		return DoorsOnScene;
 	}
-
+	
 	public BasicScene(int id) {
 		ID = id;
-		topKey = middleKey = bottomKey = -1;
+		topKey = middleUpKey = middleDownKey = bottomKey = -1;
 	}
-	public BasicScene(int id, int FloorColor, int DoorColor){
+
+	public BasicScene(int id, int FloorColor, int DoorColor) {
 		ID = id;
-		topKey = middleKey = bottomKey = -1;
+		topKey = middleUpKey = middleDownKey = bottomKey = -1;
 		this.FloorColor = FloorColor;
 		this.DoorColor = DoorColor;
 	}
-	private int getRandomColor(){
+
+	private int getRandomColor() {
 		int r = generator.nextInt(255);
 		int g = generator.nextInt(255);
 		int b = generator.nextInt(255);
-		return Color.rgb(r,g,b);
+		return Color.rgb(r, g, b);
 	}
 
 	public void setValues(int ScreenWidth) {
 		FloorColor = getRandomColor();
-		DoorColor = Color.rgb(255-Color.red(FloorColor), 
-				255-Color.green(FloorColor), 255-Color.blue(FloorColor));
-//		FloorColor = Color.WHITE;
-//		DoorColor = Color.YELLOW;
-		BackgroundType = (DoorColor + FloorColor) % 5;
-		
-		topDoorPosition = (int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1);
-		middleDoorPosition = (int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1);
-		bottomDoorPosition = (int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1);
-//		topDoorPosition = 10 + generator.nextInt(ScreenWidth-20);
-//		middleDoorPosition = 10 + generator.nextInt(ScreenWidth-20);//(int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1);
-//		bottomDoorPosition = 10 + generator.nextInt(ScreenWidth-20);//(int) (ScreenWidth/2 + ((generator.nextFloat()-0.5f)*ScreenWidth/2) + 1);
-	
+		DoorColor = Color.rgb(255 - Color.red(FloorColor),
+				255 - Color.green(FloorColor), 255 - Color.blue(FloorColor));
+		// FloorColor = Color.WHITE;
+		// DoorColor = Color.YELLOW;
+		BackgroundType = (indexForScenes) % 5;
+		++indexForScenes;
+		topDoorPosition = (int) (ScreenWidth / 2
+				+ ((generator.nextFloat() - 0.5f) * ScreenWidth / 2) + 1);
+		middleDoorPosition = (int) (ScreenWidth / 2
+				+ ((generator.nextFloat() - 0.5f) * ScreenWidth / 2) + 1);
+		bottomDoorPosition = (int) (ScreenWidth / 2
+				+ ((generator.nextFloat() - 0.5f) * ScreenWidth / 2) + 1);
+
+		DoorsOnScene.add(new PointAndStage(topDoorPosition, topDoorPosition
+				+ CastleEngine.DoorWidth, 0));
+		DoorsOnScene.add(new PointAndStage(middleDoorPosition, middleDoorPosition
+				+ CastleEngine.DoorWidth, 1));
+		DoorsOnScene.add(new PointAndStage(bottomDoorPosition, bottomDoorPosition
+				+ CastleEngine.DoorWidth, 2));
+
 	}
 
 	public boolean isPopulatingDone() {
-		return (topKey == -1 || middleKey == -1 || bottomKey == -1);
+		return (topKey == -1 || middleUpKey == -1 || middleDownKey == -1 || bottomKey == -1);
 	}
 
-	public void setRandomBuddies(int top, int mid, int bot) {
+	public void setRandomBuddies(int top, int midUp, int midDo, int bot) {
 		topKey = top;
-		middleKey = mid;
+		middleUpKey = midUp;
+		middleDownKey = midDo;
+		
 		bottomKey = bot;
+		
 	}
 }
