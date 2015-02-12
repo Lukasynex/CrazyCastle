@@ -65,6 +65,8 @@ public class Character {
 		UpdatePos();
 		switch (type) {
 		case LEFTWALK: {
+			if(CurrentCharacterEntity.getX()<0)
+				return;
 			CurrentCharacterEntity
 					.setX(CurrentCharacterEntity.getX() - STEP_DX);
 			if (animationStopped)
@@ -73,6 +75,8 @@ public class Character {
 			break;
 		}
 		case RIGHTWALK: {
+			if(CurrentCharacterEntity.getX()> 100 + CastleEngine.ScreenWidth)
+				return;
 			CurrentCharacterEntity
 					.setX(CurrentCharacterEntity.getX() + STEP_DX);
 			if (animationStopped)

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public class SceneProvider {
-	private final int ROOMS_COUNT;//=4;
+	public final int ROOMS_COUNT;//=4;
 	private final int ScreenWidth = CastleEngine.ScreenWidth;
 	private Random generator = new Random();
 	private List<Integer> PadlockList = new ArrayList<Integer>();
