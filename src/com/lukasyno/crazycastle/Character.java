@@ -39,6 +39,7 @@ public class Character {
 	private static final float STEP_DX = 1.5f;
 
 	private static final int RUN = 20;
+	private static final int WTF_OFFSET = 50;
 
 	public Character(Activity context) {
 		this.context = context;
@@ -75,7 +76,7 @@ public class Character {
 			break;
 		}
 		case RIGHTWALK: {
-			if(CurrentCharacterEntity.getX()> 100 + CastleEngine.ScreenWidth)
+			if(CurrentCharacterEntity.getX() > CastleEngine.ScreenWidth-WTF_OFFSET)
 				return;
 			CurrentCharacterEntity
 					.setX(CurrentCharacterEntity.getX() + STEP_DX);
@@ -146,5 +147,10 @@ public class Character {
 
 	public void setWalkStatus(GESTURE f) {
 		WalkStatus = f;
+	}
+
+	public void onRestart() {
+		// TODO Auto-generated method stub
+		
 	}
 }

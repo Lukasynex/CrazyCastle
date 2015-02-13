@@ -58,5 +58,14 @@
          android:layout_marginTop="31dp"
          android:layout_marginLeft="0dp"
          android:src="@anim/evil_animation" />
+
+     <TextView
+         android:id="@+id/collectedCarrots"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignRight="@+id/castle_view"
+         android:layout_alignTop="@+id/castle_view"
+         android:background="#ffff00"
+         android:text=" 0" />
      
 </RelativeLayout>

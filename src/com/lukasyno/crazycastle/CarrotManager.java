@@ -2,20 +2,42 @@ package com.lukasyno.crazycastle;
 
 import java.security.GeneralSecurityException;
 
+import android.graphics.Color;
 import android.util.Pair;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class CarrotManager {
+	private static final int WTF_OFFSET_FOR_CARROT = 60;
 	// TODO:
 	// change 30 to offset!
 	private final MainActivity context;
 	private ImageView carrot;
-	//public BasicScene currentScene;
+	private boolean Visibility = false;
+	// public BasicScene currentScene;
 	public int currentCarrotIndex;
 
 	public Point[] SceneVisiblePoints;
-	private int CollectedCarrots = 0;
+	public int CollectedCarrots = 0;
 
+	
+	@SuppressWarnings("unchecked")
+	public CarrotManager(MainActivity context) {
+		this.context = context;
+		carrot = (ImageView) context.findViewById(R.id.Carrot);
+		carrot.setX(30 + context.generator
+				.nextInt(CastleEngine.ScreenWidth - 30));
+		carrot.setY(500);
+		this.ROOMS_COUNT = context.sceneProvider.ROOMS_COUNT;
+		SceneVisiblePoints = new Point[ROOMS_COUNT];
+		for (int i = 0; i < SceneVisiblePoints.length; i++) {
+			SceneVisiblePoints[i] = new Point(
+					context.generator.nextInt(CastleEngine.ScreenWidth),
+					getRandomStage());
+		}
+		TextView view  = (TextView)context.findViewById(R.id.collectedCarrots);
+		view.setBackgroundColor(Color.YELLOW);
+	}
 	public float AbsDiff(float x, float y) {
 		return (x > y) ? (x - y) : (y - x);
 	}
@@ -24,20 +46,24 @@ public class CarrotManager {
 		int i = 0;
 		for (i = 0; i < SceneVisiblePoints.length; i++) {
 			carrot.setVisibility(ImageView.INVISIBLE);
-			if (currentScene == i){
+			if (currentScene == i) {
 				carrot.setX(SceneVisiblePoints[i].x);
 				carrot.setY(SceneVisiblePoints[i].y);
 				carrot.setVisibility(ImageView.VISIBLE);
+				Visibility = true;
 				break;
 			}
 		}
 	}
 
 	public void DetachCarrot(int i) {
-		++CollectedCarrots ;
+		++CollectedCarrots;
 		carrot.setVisibility(ImageView.INVISIBLE);
-		SceneVisiblePoints[i].x = 30+context.generator.nextInt(CastleEngine.ScreenWidth-30);
+		SceneVisiblePoints[i].x = WTF_OFFSET_FOR_CARROT
+				+ context.generator.nextInt(CastleEngine.ScreenWidth
+						- WTF_OFFSET_FOR_CARROT);
 		SceneVisiblePoints[i].y = getRandomStage();
+		Visibility = false;
 	}
 
 	private final int ROOMS_COUNT;
@@ -59,21 +85,7 @@ public class CarrotManager {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public CarrotManager(MainActivity context) {
-		this.context = context;
-		carrot = (ImageView) context.findViewById(R.id.Carrot);
-		carrot.setX(30 + context.generator
-				.nextInt(CastleEngine.ScreenWidth - 30));
-		carrot.setY(500);
-		this.ROOMS_COUNT = context.sceneProvider.ROOMS_COUNT;
-		SceneVisiblePoints = new Point[ROOMS_COUNT];
-		for (int i = 0; i < SceneVisiblePoints.length; i++) {
-			SceneVisiblePoints[i] = new Point(
-					context.generator.nextInt(CastleEngine.ScreenWidth),
-					getRandomStage());
-		}
-	}
+	
 
 	public void setVisibility(boolean b) {
 		if (b)
@@ -82,19 +94,14 @@ public class CarrotManager {
 			carrot.setVisibility(ImageView.INVISIBLE);
 	}
 
-	public void setCarrot(int stage) {
-		switch (stage) {
-		case 0: {
-			break;
-		}
-		case 1: {
-			break;
-		}
-		case 2: {
-			break;
-		}
-
-		}
+	public void update() {
+		TextView view  = (TextView)context.findViewById(R.id.collectedCarrots);
+		view.setText(""+CollectedCarrots);
+		
 	}
 
+	public boolean isVisible() {
+		
+		return Visibility;
+	}
 }

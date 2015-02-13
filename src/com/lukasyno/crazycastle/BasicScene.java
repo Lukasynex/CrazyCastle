@@ -6,6 +6,8 @@ import java.util.Random;
 import android.graphics.Color;
 
 public class BasicScene {
+	private BasicScene next;
+	private BasicScene previous;
 	private static int indexForScenes = 0;
 	private ArrayList<PointAndStage> DoorsOnScene = new ArrayList<PointAndStage>();
 	private Random generator = new Random();
@@ -18,6 +20,19 @@ public class BasicScene {
 	public int FloorColor;
 	public int DoorColor;
 	//getters & setters
+	public void setNext(BasicScene nxt){
+		next = nxt;
+	}
+	public void setPrev(BasicScene prv){
+		previous= prv;
+	}
+	public BasicScene getNext(){
+		return next;
+	}
+	public BasicScene getPrev(){
+		return previous;
+	}
+	
 	public ArrayList<PointAndStage> getDoorsOnScene(){
 		return DoorsOnScene;
 	}

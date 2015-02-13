@@ -21,21 +21,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 
 public class CastleEngine extends View {
-//	public void ChangeDoor(){
-//		Animation fadeIn = new AlphaAnimation(0, 1);
-//		fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
-//		fadeIn.setDuration(1000);
-//
-//		Animation fadeOut = new AlphaAnimation(1, 0);
-//		fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
-//		fadeOut.setStartOffset(1000);
-//		fadeOut.setDuration(1000);
-//
-//		AnimationSet animation = new AnimationSet(false); //change to false
-//		animation.addAnimation(fadeIn);
-//		animation.addAnimation(fadeOut);
-//		this.setAnimation(animation);
-//	}
+
 	public enum WALL {
 		REDBRICK, PRISON, NIGHT, LAB, WIZARD
 	}
@@ -61,12 +47,15 @@ public class CastleEngine extends View {
 	boolean started = false;
 	float X0, Y0;
 	private static final int ROOMS_COUNT = 4;
+//	private Paint RedPaint = new Paint();
+	
 
 	// since 23:037.02.2015
 	private List<Integer> PadlockList = new ArrayList<Integer>();
 	private BasicScene[] AllRooms = new BasicScene[ROOMS_COUNT];
 	private BasicScene currentScene = null;
-
+	private int CollectedCarrots = -1;
+	
 	public int getCurrentScene() {
 		return currentScene.ID;
 	}
@@ -76,10 +65,7 @@ public class CastleEngine extends View {
 		ScreenHeight = 640;// getHeight();
 		ScreenWidth = 480;// getWidth();
 		Floor_Height = ScreenHeight / 18;
-		// setBackgroundWall(WALL.REDBRICK);
-		// fillPadlockSet();
-		// onPopulateCastle();
-		// setCurrentRoom(1);
+
 	}
 
 	public CastleEngine(Context context, AttributeSet set) {
@@ -88,11 +74,6 @@ public class CastleEngine extends View {
 		ScreenHeight = 640;// getHeight();
 		ScreenWidth = 480;// getWidth();
 		Floor_Height = ScreenHeight / 18;
-
-		// setBackgroundWall(WALL.REDBRICK);
-		// fillPadlockSet();
-		// onPopulateCastle();
-		// setCurrentRoom(1);
 	}
 
 	private void setBackground(int i) {
@@ -123,31 +104,7 @@ public class CastleEngine extends View {
 		}
 	}
 
-	// public void reDrawScene(int current_scene_index) {
-	// mainCanvas.drawColor(Color.BLACK);
-	//
-	// mainCanvas.getClipBounds(clippingRect);
-	// FloorPaint.setColor(currentScene.FloorColor);
-	// RedrawStage(0, mainCanvas);
-	// RedrawStage(1, mainCanvas);
-	// RedrawStage(2, mainCanvas);
-	// DoorPaint.setColor(currentScene.DoorColor);
-	// RedrawDoorAtStage(0, mainCanvas);
-	// RedrawDoorAtStage(1, mainCanvas);
-	// RedrawDoorAtStage(2, mainCanvas);
-	//
-	// invalidate();
-	// }
-	// public void Start(){
-	// fillPadlockSet();
-	// onPopulateCastle();
-	// setCurrentRoom(1);
-	// }
 	public void setScene(BasicScene scene) {
-//		if(currentScene.getDoorsOnScene() != null){
-//			DoorsCoordinates.clear();
-//			DoorsCoordinates = currentScene.getDoorsOnScene();
-//		}
 		currentScene = scene;
 		setBackground(scene.BackgroundType);
 		invalidate();
@@ -165,7 +122,6 @@ public class CastleEngine extends View {
 			FloorPaint.setColor(currentScene.FloorColor);
 			DoorPaint.setColor(currentScene.DoorColor);
 		}
-
 		c.getClipBounds(clippingRect);
 		drawStage(0, c);
 		drawStage(1, c);
@@ -238,6 +194,7 @@ public class CastleEngine extends View {
 	public void setDoorCoordinates(ArrayList<PointAndStage> list) {
 		DoorsCoordinates = list;
 	}
+
 
 }
 

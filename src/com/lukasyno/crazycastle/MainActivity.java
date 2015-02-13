@@ -34,20 +34,16 @@ public class MainActivity extends Activity {
 	public ArrayList<Pair<Integer, Integer>> track = new ArrayList<Pair<Integer, Integer>>();
 	public Pair<Integer, Integer> temporaryPair = new Pair<Integer, Integer>(0,
 			0);
-	public int indexForTrack = 0;
+//	public int indexForTrack = 0;
 	public CastleEngine CrazyCastle;
 	public SceneProvider sceneProvider;
 	public Character character;
 	public CarrotManager carrotManager;
 
-	// private final int ROOMS_COUNT = 4;
-	// private int ScreenWidth = 480;
-	// private List<Integer> PadlockList = new ArrayList<Integer>();
-	// private BasicScene[] AllRooms = new BasicScene[ROOMS_COUNT];
-	// private BasicScene currentScene;
+	 private final int ROOMS_COUNT = 14;
 
 	Random generator = new Random();
-	int BunnyStep = 20;
+//	int BunnyStep = 20;
 	int HEIGHT = 1000;
 	boolean DirectionLeft = false;
 	boolean DirectionLeftForEvil = false;
@@ -66,56 +62,26 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		for (int i = 0; i < 11; i++) {
-			track.add(Pair.create(i % 3, i + 1));
-		}
-		track.add(Pair.create(2, 0));
-		track.add(Pair.create(1, 0));
 
-		sceneProvider = new SceneProvider(4);
+
+		sceneProvider = new SceneProvider(ROOMS_COUNT);
 
 		CrazyCastle = (CastleEngine) findViewById(R.id.castle_view);
 		CrazyCastle.setBackground(getResources().getDrawable(R.drawable.wall));
 		CrazyCastle.setScene(sceneProvider.getCurrentScene());
 		View myView = (View) findViewById(R.id.mainLayout);
 		carrotManager = new CarrotManager(this);
-		// ImageView carrot = (ImageView) findViewById(R.id.Carrot);
-		// carrot.setVisibility(ImageView.VISIBLE);
-		// carrot.setX(100);
-		// carrot.setY(500);
-		fade = AnimationUtils.loadAnimation(this, R.anim.fade_out);
 
-		// fade.setAnimationListener(new AnimationListener() {
-		// public void onAnimationEnd(Animation animation) {
-		//
-		// }
-		//
-		// public void onAnimationRepeat(Animation arg0) {
-		// }
-		//
-		// public void onAnimationStart(Animation arg0) {
-		// }
-		// });
+		fade = AnimationUtils.loadAnimation(this, R.anim.fade_out);
 
 		character = new Character(this);
 		character.CurrentCharacterEntity.setX(character.CurrentCharacterEntity
 				.getX() + 111);
 
-		// ImageView carrot = (ImageView) findViewById(R.id.Carrot);
-		// carrot.setX(1000);
 		ImageView EvilR = (ImageView) findViewById(R.id.Evil_Mirror);
 		ImageView EvilL = (ImageView) findViewById(R.id.Evil);
 		EvilR.setY(1000);
 		EvilL.setY(1000);
-		//
-		// carrot.setX(200);
-		// carrot.setY(321);
-		// getX0(bugsL.getX());
-		// setMirrorProperly(bugsR, bugsL);
-		// AnimationDrawable animR = (AnimationDrawable)bugsL.getDrawable();
-		// animR.start();
-		// AnimationDrawable animL = (AnimationDrawable)bugsR.getDrawable();
-		// animL.start();
 
 		BugsWalks.start(this);
 		EvilBugs.start(this);
@@ -124,22 +90,6 @@ public class MainActivity extends Activity {
 	// thread for stopping bugs
 	public void Walk() {
 		character.walk(character.WalkStatus);
-		// ImageView AnimationLeft = (ImageView)findViewById(R.id.Bunny_Mirror);
-		// ImageView AnimationRight = (ImageView)findViewById(R.id.Bunny);
-		// ImageView ref = (DirectionLeft) ? AnimationLeft:AnimationRight;
-		// carrot.setX(100);
-		// carrot.setY(y);
-		// ++time;
-		// if(time>50)
-		// {
-		// AnimationDrawable animR =
-		// (AnimationDrawable)AnimationRight.getDrawable();
-		// animR.stop();
-		// AnimationDrawable animL =
-		// (AnimationDrawable)AnimationLeft.getDrawable();
-		// animL.stop();
-		// }
-
 	}
 
 	public float AbsDiff(float x, float y) {
@@ -169,22 +119,16 @@ public class MainActivity extends Activity {
 
 			float FloorHeight = CastleEngine.Floor_Height;
 			float Y = event.getY() - FingerSize;
+
 			// if we want to go downstairs to stage 1:
 			if (CurrentStage == 0 && ref.getX() > pt.DoorStart
 					&& ref.getX() < pt.DoorEnd && 6 * FloorHeight < Y) {
 
 				View lay = (View) findViewById(R.id.mainLayout);
 				lay.startAnimation(fade);
-				// AlphaAnimation fadein = new AlphaAnimation(0, 1);
-				// //fadein.setFillAfter(true);
-				// fadein.setDuration(500);
-				// View lay = (View)findViewById(R.id.mainLayout);
-				// lay.startAnimation(fadein);
 
-				// mAnimationSet.start();
 				CurrentStage = generator.nextInt(3);
-				PreviousStage = 0;
-				sceneProvider.setCurrentScene(generator.nextInt(4));
+				sceneProvider.setCurrentScene(generator.nextInt(ROOMS_COUNT));
 
 				CrazyCastle.setScene(sceneProvider.getCurrentScene());
 				list = sceneProvider.getCurrentDoorPosition();
@@ -204,16 +148,13 @@ public class MainActivity extends Activity {
 				lay.startAnimation(fade);
 
 				CurrentStage = generator.nextInt(3);
-				PreviousStage = 1;
 				sceneProvider.setCurrentScene(generator.nextInt(4));
+				
 				CrazyCastle.setScene(sceneProvider.getCurrentScene());
 				list = sceneProvider.getCurrentDoorPosition();
 				pt = list.get(CurrentStage);
 				ref.setX(pt.DoorStart);
-				// ref.setY((17 - 3) * FloorHeight);
 				ref.setY(Y_Position_Is_Essential(CurrentStage));
-
-				// setCharacterNearDoor(1, pt.DoorStart);
 				character.setMirrorProperly(refMirror, ref);
 				carrotManager
 						.setProperCarrot(sceneProvider.getCurrentScene().ID);
@@ -226,9 +167,8 @@ public class MainActivity extends Activity {
 				lay.startAnimation(fade);
 
 				CurrentStage = generator.nextInt(3);
-				PreviousStage = 1;
-				sceneProvider.setCurrentScene(generator.nextInt(4));
-
+				sceneProvider.setCurrentScene(generator.nextInt(ROOMS_COUNT));
+				
 				CrazyCastle.setScene(sceneProvider.getCurrentScene());
 				list = sceneProvider.getCurrentDoorPosition();
 				pt = list.get(CurrentStage);
@@ -247,11 +187,11 @@ public class MainActivity extends Activity {
 				View lay = (View) findViewById(R.id.mainLayout);
 				lay.startAnimation(fade);
 
-				CurrentStage = generator.nextInt(2);
-				PreviousStage = 2;
-				sceneProvider.setCurrentScene(generator.nextInt(4));
-
+				CurrentStage = generator.nextInt(3);
+				sceneProvider.setCurrentScene(generator.nextInt(ROOMS_COUNT));
+				
 				CrazyCastle.setScene(sceneProvider.getCurrentScene());
+
 				list = sceneProvider.getCurrentDoorPosition();
 				pt = list.get(CurrentStage);
 				ref.setX(pt.DoorStart);
@@ -295,13 +235,14 @@ public class MainActivity extends Activity {
 			return true;
 		}
 		if (id == R.id.action_settings) {
-			// TODO: Options if needed
+			
 		}
 
 		return super.onOptionsItemSelected(item);
 	}
 
 	public void RestartGame() {
+		//character.onRestart();
 		// ImageView bugsL = (ImageView) findViewById(R.id.Bunny);
 		// ImageView bugsR = (ImageView) findViewById(R.id.Bunny_Mirror);
 		// bugsL.setX(X0);
@@ -322,7 +263,7 @@ public class MainActivity extends Activity {
 		ImageView evilLEFT = (ImageView) findViewById(R.id.Evil);
 		ImageView ref1 = (ImageView) findViewById(R.id.Bunny_Mirror);
 		ImageView ref2 = (ImageView) findViewById(R.id.Bunny);
-		ImageView ref = (DirectionLeft) ? ref1 : ref2;
+//		ImageView ref = (DirectionLeft) ? ref1 : ref2;
 
 		if (sceneProvider.getCurrentScene().ID == 2) {
 			evilRIGHT.setVisibility(ImageView.VISIBLE);
@@ -358,31 +299,11 @@ public class MainActivity extends Activity {
 		} else {
 			evilRIGHT.setVisibility(ImageView.INVISIBLE);
 			evilLEFT.setVisibility(ImageView.INVISIBLE);
-//			ImageView carrot = (ImageView) findViewById(R.id.Carrot);
-			if(carrotManager.CollidesWith(character.CurrentCharacterEntity)){
-				carrotManager.DetachCarrot(sceneProvider.getCurrentScene().ID);
-			}
-//			if (AbsDiff(character.CurrentCharacterEntity.getX(), carrot.getX()) < 20
-//					&& AbsDiff(character.CurrentCharacterEntity.getY(),
-//							carrot.getY()) < 150) {
-//				++CollectedCarrots;
-//
-//				int RandomStage = sceneProvider.getCurrentScene().ID;
-//				float dx = CrazyCastle.ScreenWidth / 2;
-//				dx += (generator.nextFloat() - 0.5f)
-//						* (2 * CrazyCastle.ScreenWidth / 3);
-//				
-//				if (RandomStage == 0) {
-//					carrot.setVisibility(ImageView.VISIBLE);
-//					carrot.setY(321);
-//				} else if (RandomStage == 1) {
-//					carrot.setY(121);
-//					carrot.setVisibility(ImageView.VISIBLE);
-//				} else if (RandomStage == 3) {
-//					carrot.setVisibility(ImageView.VISIBLE);
-//
-//					carrot.setY(500);
-//				} 
+
+		}
+		if (carrotManager.CollidesWith(character.CurrentCharacterEntity) && carrotManager.isVisible()) {
+			carrotManager.DetachCarrot(sceneProvider.getCurrentScene().ID);
+			carrotManager.update();
 			
 		}
 
