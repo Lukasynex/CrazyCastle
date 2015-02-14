@@ -56,6 +56,9 @@ public class Character {
 		CharacterRotateRight.setY(DEATH_ZONE);
 		setupAnimation();
 		setPosition(CharacterRotateLeft.getX(), CharacterRotateLeft.getY());
+		InvisibleCharacterRotateLeft.setX(DEATH_ZONE);
+		InvisibleCharacterRotateLeft.setY(DEATH_ZONE);
+		
 	}
 
 	private void setPosition(double dx, double dy) {
@@ -154,6 +157,7 @@ public class Character {
 	private void startAnimation() {
 		CharacterLeftAnimation.start();
 		CharacterRightAnimation.start();
+		CharacterLeftInvisibleAnimation.start();
 		animationStopped = false;
 	}
 
