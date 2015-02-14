@@ -14,10 +14,15 @@ public class Character {
 	private boolean animationStopped = true;
 	private ImageView CharacterRotateLeft;
 	public ImageView CurrentCharacterEntity;
-	private ImageView CharacterRotateRight;// =
+	private ImageView CharacterRotateRight;
+	private ImageView InvisibleCharacterRotateLeft;
+	
+	
+	
 											// (ImageView)findViewById(R.id.Bunny_Mirror);
 	private AnimationDrawable CharacterLeftAnimation;
 	private AnimationDrawable CharacterRightAnimation;
+	private AnimationDrawable CharacterLeftInvisibleAnimation;
 	public GESTURE WalkStatus = GESTURE.STOP;
 
 	private void UpdateCenterPosition() {
@@ -46,6 +51,7 @@ public class Character {
 		CharacterRotateLeft = (ImageView) context.findViewById(R.id.Bunny);
 		CharacterRotateRight = (ImageView) context
 				.findViewById(R.id.Bunny_Mirror);
+		InvisibleCharacterRotateLeft = (ImageView)context.findViewById(R.id.Invisible);
 		CurrentCharacterEntity = CharacterRotateLeft;
 		CharacterRotateRight.setY(DEATH_ZONE);
 		setupAnimation();
@@ -136,6 +142,11 @@ public class Character {
 				.getDrawable();
 		CharacterRightAnimation = (AnimationDrawable) CharacterRotateRight
 				.getDrawable();
+		CharacterLeftInvisibleAnimation = (AnimationDrawable) InvisibleCharacterRotateLeft.getDrawable();
+		
+		//TODO:load invisible animation
+		//create left bottom button - enable/disable invisible
+		//		CharacterLeftInvisibleAnimation = (AnimationDrawable);
 		startAnimation();
 		stopAnimation();
 	}
@@ -149,7 +160,7 @@ public class Character {
 	public void setWalkStatus(GESTURE f) {
 		WalkStatus = f;
 	}
-
+	public void onDeath(){}
 	public void onRestart() {
 		// TODO Auto-generated method stub
 

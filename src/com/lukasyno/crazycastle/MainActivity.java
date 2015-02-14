@@ -122,6 +122,7 @@ public class MainActivity extends Activity {
 				View lay = (View) findViewById(R.id.mainLayout);
 				lay.startAnimation(fade);
 
+				evilBugs.setCurrentStage(generator.nextInt(3));
 				CurrentStage = generator.nextInt(3);
 				sceneProvider.setCurrentScene(generator.nextInt(ROOMS_COUNT));
 
@@ -142,6 +143,7 @@ public class MainActivity extends Activity {
 				View lay = (View) findViewById(R.id.mainLayout);
 				lay.startAnimation(fade);
 
+				evilBugs.setCurrentStage(generator.nextInt(3));
 				CurrentStage = generator.nextInt(3);
 				sceneProvider.setCurrentScene(generator.nextInt(4));
 				
@@ -161,6 +163,7 @@ public class MainActivity extends Activity {
 				View lay = (View) findViewById(R.id.mainLayout);
 				lay.startAnimation(fade);
 
+				evilBugs.setCurrentStage(generator.nextInt(3));
 				CurrentStage = generator.nextInt(3);
 				sceneProvider.setCurrentScene(generator.nextInt(ROOMS_COUNT));
 				
@@ -182,6 +185,7 @@ public class MainActivity extends Activity {
 				View lay = (View) findViewById(R.id.mainLayout);
 				lay.startAnimation(fade);
 
+				evilBugs.setCurrentStage(generator.nextInt(3));
 				CurrentStage = generator.nextInt(3);
 				sceneProvider.setCurrentScene(generator.nextInt(ROOMS_COUNT));
 				

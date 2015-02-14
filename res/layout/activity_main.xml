@@ -24,6 +24,11 @@
          android:layout_marginTop="31dp"
          android:src="@anim/bugs_animation" />
      <ImageView
+         android:id="@+id/Invisible"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:src="@anim/invisible_left_animation"></ImageView>
+     <ImageView
          android:id="@+id/Bunny_Mirror"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"

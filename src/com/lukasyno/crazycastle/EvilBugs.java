@@ -8,7 +8,6 @@ import android.widget.ImageView;
 public class EvilBugs {
 	private Activity context;
 	public boolean isEvilLeft = true;
-	private boolean animationStopped = true;
 	private ImageView EvilRotateLeft;
 	public ImageView CurrentEvilEntity;
 	private ImageView EvilRotateRight;
@@ -16,7 +15,6 @@ public class EvilBugs {
 	private AnimationDrawable EvilLeftAnimation;
 	private AnimationDrawable EvilRightAnimation;
 	private SceneProvider sceneProvider;
-
 
 	private static final int STEP = 10;
 	private static final float STEP_DX = 1.5f;
@@ -49,7 +47,7 @@ public class EvilBugs {
 
 	public void EvilWalk() {
 
-		if (sceneProvider.getCurrentScene().ID == 2) {
+//		if (true || sceneProvider.getCurrentScene().ID == 2) {
 			EvilRotateRight.setVisibility(ImageView.VISIBLE);
 			EvilRotateLeft.setVisibility(ImageView.VISIBLE);
 
@@ -75,11 +73,11 @@ public class EvilBugs {
 					isEvilLeft = true;
 			}
 			startAnimation();
-		} else {
-			EvilRotateRight.setVisibility(ImageView.INVISIBLE);
-			EvilRotateLeft.setVisibility(ImageView.INVISIBLE);
-
-		}
+//		} else {
+//			EvilRotateRight.setVisibility(ImageView.INVISIBLE);
+//			EvilRotateLeft.setVisibility(ImageView.INVISIBLE);
+//
+//		}
 	}
 
 	private void stopAnimation() {
