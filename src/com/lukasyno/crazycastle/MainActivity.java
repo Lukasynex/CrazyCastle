@@ -22,8 +22,11 @@ import android.widget.ImageView;
 /**
  * TODO: castle engine fix door moving around fix set proper floor/door values
  * fix walking through door, set Bugs in proper position to do so -> door
- * coordinates as field in every scene carrot manager make work properly!!
  * 
+ * splash screen oraz wygodne menu
+ * opakować blendziora w klasę
+ * 
+ * wygenerować klasę LevelManager, która dba o przebieg gry
  * @author lukasz
  * 
  */
@@ -38,6 +41,7 @@ public class MainActivity extends Activity {
 	public CastleEngine CrazyCastle;
 	public SceneProvider sceneProvider;
 	public Character character;
+	public EvilBugs evilBugs;
 	public CarrotManager carrotManager;
 
 	 private final int ROOMS_COUNT = 14;
@@ -62,8 +66,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-
-
 		sceneProvider = new SceneProvider(ROOMS_COUNT);
 
 		CrazyCastle = (CastleEngine) findViewById(R.id.castle_view);
@@ -77,20 +79,16 @@ public class MainActivity extends Activity {
 		character = new Character(this);
 		character.CurrentCharacterEntity.setX(character.CurrentCharacterEntity
 				.getX() + 111);
+		evilBugs = new EvilBugs(this, sceneProvider);
 
-		ImageView EvilR = (ImageView) findViewById(R.id.Evil_Mirror);
-		ImageView EvilL = (ImageView) findViewById(R.id.Evil);
-		EvilR.setY(1000);
-		EvilL.setY(1000);
-
-		BugsWalks.start(this);
-		EvilBugs.start(this);
+//		BugsWalks.start(this);
+		Loop.start(this);
 	}
 
 	// thread for stopping bugs
-	public void Walk() {
-		character.walk(character.WalkStatus);
-	}
+//	public void Walk() {
+//		character.walk(character.WalkStatus);
+//	}
 
 	public float AbsDiff(float x, float y) {
 		return (x > y) ? (x - y) : (y - x);
@@ -237,10 +235,8 @@ public class MainActivity extends Activity {
 		if (id == R.id.action_settings) {
 			
 		}
-
 		return super.onOptionsItemSelected(item);
 	}
-
 	public void RestartGame() {
 		//character.onRestart();
 		// ImageView bugsL = (ImageView) findViewById(R.id.Bunny);
@@ -258,54 +254,15 @@ public class MainActivity extends Activity {
 		X0 = x;
 	}
 
-	public void EvilWalk() {
-		ImageView evilRIGHT = (ImageView) findViewById(R.id.Evil_Mirror);
-		ImageView evilLEFT = (ImageView) findViewById(R.id.Evil);
-		ImageView ref1 = (ImageView) findViewById(R.id.Bunny_Mirror);
-		ImageView ref2 = (ImageView) findViewById(R.id.Bunny);
-//		ImageView ref = (DirectionLeft) ? ref1 : ref2;
-
-		if (sceneProvider.getCurrentScene().ID == 2) {
-			evilRIGHT.setVisibility(ImageView.VISIBLE);
-			evilLEFT.setVisibility(ImageView.VISIBLE);
-
-			// TODO:create Bugs death and add change the anim when he
-			// TODO: collides with Evil Rabbit. Also bitmap failgame could be
-			// added
-
-			if (DirectionLeftForEvil) {
-				evilLEFT.setX(evilLEFT.getX() + 1.5f);
-				evilRIGHT.setX(evilLEFT.getX());
-
-				evilLEFT.setY((17 - 3) * CastleEngine.Floor_Height);
-				evilRIGHT.setY(evilLEFT.getY() + HEIGHT);
-				if (evilLEFT.getX() > CastleEngine.ScreenWidth - 30)
-					DirectionLeftForEvil = false;
-			} else if (!DirectionLeftForEvil) {
-				evilLEFT.setX(evilLEFT.getX() - 1.5f);
-				evilRIGHT.setX(evilLEFT.getX());
-				evilRIGHT.setY((17 - 3) * CastleEngine.Floor_Height);
-				evilLEFT.setY(evilLEFT.getY() + HEIGHT);
-				if (evilLEFT.getX() < 0)
-					DirectionLeftForEvil = true;
-			}
-			AnimationDrawable animL = (AnimationDrawable) evilRIGHT
-					.getDrawable();
-			animL.start();
-			AnimationDrawable animR = (AnimationDrawable) evilLEFT
-					.getDrawable();
-			animR.start();
-
-		} else {
-			evilRIGHT.setVisibility(ImageView.INVISIBLE);
-			evilLEFT.setVisibility(ImageView.INVISIBLE);
-
-		}
+	public void LoopActions() {
+		character.walk(character.WalkStatus);
+		
 		if (carrotManager.CollidesWith(character.CurrentCharacterEntity) && carrotManager.isVisible()) {
 			carrotManager.DetachCarrot(sceneProvider.getCurrentScene().ID);
 			carrotManager.update();
 			
 		}
-
+		evilBugs.EvilWalk();
+		
 	}
 }
