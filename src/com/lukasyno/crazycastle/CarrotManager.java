@@ -1,9 +1,6 @@
 package com.lukasyno.crazycastle;
 
-import java.security.GeneralSecurityException;
-
 import android.graphics.Color;
-import android.util.Pair;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +17,6 @@ public class CarrotManager {
 	public Point[] SceneVisiblePoints;
 	public int CollectedCarrots = 0;
 
-	
 	@SuppressWarnings("unchecked")
 	public CarrotManager(MainActivity context) {
 		this.context = context;
@@ -35,9 +31,10 @@ public class CarrotManager {
 					context.generator.nextInt(CastleEngine.ScreenWidth),
 					getRandomStage());
 		}
-		TextView view  = (TextView)context.findViewById(R.id.collectedCarrots);
+		TextView view = (TextView) context.findViewById(R.id.collectedCarrots);
 		view.setBackgroundColor(Color.YELLOW);
 	}
+
 	public float AbsDiff(float x, float y) {
 		return (x > y) ? (x - y) : (y - x);
 	}
@@ -85,8 +82,6 @@ public class CarrotManager {
 		}
 	}
 
-	
-
 	public void setVisibility(boolean b) {
 		if (b)
 			carrot.setVisibility(ImageView.VISIBLE);
@@ -95,13 +90,13 @@ public class CarrotManager {
 	}
 
 	public void update() {
-		TextView view  = (TextView)context.findViewById(R.id.collectedCarrots);
-		view.setText(""+CollectedCarrots);
-		
+		TextView view = (TextView) context.findViewById(R.id.collectedCarrots);
+		view.setText("" + CollectedCarrots);
+
 	}
 
 	public boolean isVisible() {
-		
+
 		return Visibility;
 	}
 }

@@ -14,29 +14,33 @@ public class BasicScene {
 	public static final int COLOR_SPECTRUM = 16777215;
 
 	public final int ID;
-	public int topKey, middleUpKey, middleDownKey, bottomKey, BackgroundType, topDoorPosition,
-			middleDoorPosition, bottomDoorPosition;
+	public int topKey, middleUpKey, middleDownKey, bottomKey, BackgroundType,
+			topDoorPosition, middleDoorPosition, bottomDoorPosition;
 
 	public int FloorColor;
 	public int DoorColor;
-	//getters & setters
-	public void setNext(BasicScene nxt){
+
+	// getters & setters
+	public void setNext(BasicScene nxt) {
 		next = nxt;
 	}
-	public void setPrev(BasicScene prv){
-		previous= prv;
+
+	public void setPrev(BasicScene prv) {
+		previous = prv;
 	}
-	public BasicScene getNext(){
+
+	public BasicScene getNext() {
 		return next;
 	}
-	public BasicScene getPrev(){
+
+	public BasicScene getPrev() {
 		return previous;
 	}
-	
-	public ArrayList<PointAndStage> getDoorsOnScene(){
+
+	public ArrayList<PointAndStage> getDoorsOnScene() {
 		return DoorsOnScene;
 	}
-	
+
 	public BasicScene(int id) {
 		ID = id;
 		topKey = middleUpKey = middleDownKey = bottomKey = -1;
@@ -73,10 +77,10 @@ public class BasicScene {
 
 		DoorsOnScene.add(new PointAndStage(topDoorPosition, topDoorPosition
 				+ CastleEngine.DoorWidth, 0));
-		DoorsOnScene.add(new PointAndStage(middleDoorPosition, middleDoorPosition
-				+ CastleEngine.DoorWidth, 1));
-		DoorsOnScene.add(new PointAndStage(bottomDoorPosition, bottomDoorPosition
-				+ CastleEngine.DoorWidth, 2));
+		DoorsOnScene.add(new PointAndStage(middleDoorPosition,
+				middleDoorPosition + CastleEngine.DoorWidth, 1));
+		DoorsOnScene.add(new PointAndStage(bottomDoorPosition,
+				bottomDoorPosition + CastleEngine.DoorWidth, 2));
 
 	}
 
@@ -88,8 +92,8 @@ public class BasicScene {
 		topKey = top;
 		middleUpKey = midUp;
 		middleDownKey = midDo;
-		
+
 		bottomKey = bot;
-		
+
 	}
 }

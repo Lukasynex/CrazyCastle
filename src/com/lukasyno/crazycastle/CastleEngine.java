@@ -37,8 +37,7 @@ public class CastleEngine extends View {
 		DoorPaint = new Paint();
 	}
 	public ArrayList<PointAndStage> DoorsCoordinates = new ArrayList<PointAndStage>();
-	
-	
+
 	public static int ScreenHeight;
 	public static int ScreenWidth;
 	public static int Floor_Height;
@@ -47,15 +46,14 @@ public class CastleEngine extends View {
 	boolean started = false;
 	float X0, Y0;
 	private static final int ROOMS_COUNT = 4;
-//	private Paint RedPaint = new Paint();
-	
+	// private Paint RedPaint = new Paint();
 
 	// since 23:037.02.2015
 	private List<Integer> PadlockList = new ArrayList<Integer>();
 	private BasicScene[] AllRooms = new BasicScene[ROOMS_COUNT];
 	private BasicScene currentScene = null;
 	private int CollectedCarrots = -1;
-	
+
 	public int getCurrentScene() {
 		return currentScene.ID;
 	}
@@ -110,7 +108,6 @@ public class CastleEngine extends View {
 		invalidate();
 
 	}
-
 
 	@Override
 	protected void onDraw(Canvas c) {
@@ -194,7 +191,6 @@ public class CastleEngine extends View {
 	public void setDoorCoordinates(ArrayList<PointAndStage> list) {
 		DoorsCoordinates = list;
 	}
-
 
 }
 

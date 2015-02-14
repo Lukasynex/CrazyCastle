@@ -20,21 +20,18 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 /**
- * TODO: castle engine fix door moving around fix set proper floor/door values
- * fix walking through door, set Bugs in proper position to do so -> door
- * 
+ *TODO:
  * splash screen oraz wygodne menu
- * opakować blendziora w klasę
- * 
+ * naprawić przechodzenie przez drzwi - nie randomowo tylko ma być to cykl Hamiltona
  * wygenerować klasę LevelManager, która dba o przebieg gry
+ * usunąć niepotrzebne zmienne
+ * stworzyć interfejs, po którym będzie implementował Character, EvilBugs oraz Blendzior
  * @author lukasz
  * 
  */
 public class MainActivity extends Activity {
-	/**
-	 * custom classes for game!!!1
-	 */
-	public ArrayList<Pair<Integer, Integer>> track = new ArrayList<Pair<Integer, Integer>>();
+	
+//	public ArrayList<Pair<Integer, Integer>> track = new ArrayList<Pair<Integer, Integer>>();
 	public Pair<Integer, Integer> temporaryPair = new Pair<Integer, Integer>(0,
 			0);
 //	public int indexForTrack = 0;

@@ -8,13 +8,12 @@ import java.util.Random;
 import android.content.Loader.ForceLoadContentObserver;
 
 public class SceneProvider {
-	public final int ROOMS_COUNT;//=4;
+	public final int ROOMS_COUNT;
 	private final int ScreenWidth = CastleEngine.ScreenWidth;
 	private Random generator = new Random();
-	
+
 	private List<Integer> PadlockList = new ArrayList<Integer>();
-	
-	
+
 	private BasicScene[] AllRooms;
 	private BasicScene currentScene;
 	private BasicScene previousScene;
@@ -27,19 +26,23 @@ public class SceneProvider {
 		setCurrentScene(0);
 		setPreviousScene(0);
 	}
-	
-	public ArrayList<PointAndStage> getCurrentDoorPosition(){
+
+	public ArrayList<PointAndStage> getCurrentDoorPosition() {
 		return currentScene.getDoorsOnScene();
 	}
+
 	public BasicScene getCurrentScene() {
 		return currentScene;
 	}
-	public BasicScene getPreviousScene(){
+
+	public BasicScene getPreviousScene() {
 		return previousScene;
 	}
-	public void setPreviousScene(int id){
+
+	public void setPreviousScene(int id) {
 		previousScene = AllRooms[id];
 	}
+
 	public void setCurrentScene(int id) {
 		previousScene = currentScene;
 		currentScene = AllRooms[id];
@@ -47,33 +50,30 @@ public class SceneProvider {
 
 	private void fillPadlockSet() {
 		PadlockList = new ArrayList<Integer>();
-//		PadlockList.add(9);
-//		PadlockList.add(4);
-//		PadlockList.add(7);
-//		PadlockList.add(13);
-//		
-//		PadlockList.add(3);
-//		PadlockList.add(5);
-//		PadlockList.add(2);
-//		PadlockList.add(15);
-//		
-//		PadlockList.add(8);
-//		PadlockList.add(0);
-//		PadlockList.add(11);
-//		PadlockList.add(12);
-//		
-//		PadlockList.add(1);
-//		PadlockList.add(6);
-//		PadlockList.add(10);
-//		PadlockList.add(14);
-		
-		
-		
-		
-//		for (int j = 0; j < 4 * ROOMS_COUNT; j++) {
-//			PadlockList.add(j);
-//		}
-//		Collections.shuffle(PadlockList, generator);
+		// PadlockList.add(9);
+		// PadlockList.add(4);
+		// PadlockList.add(7);
+		// PadlockList.add(13);
+		//
+		// PadlockList.add(3);
+		// PadlockList.add(5);
+		// PadlockList.add(2);
+		// PadlockList.add(15);
+		//
+		// PadlockList.add(8);
+		// PadlockList.add(0);
+		// PadlockList.add(11);
+		// PadlockList.add(12);
+		//
+		// PadlockList.add(1);
+		// PadlockList.add(6);
+		// PadlockList.add(10);
+		// PadlockList.add(14);
+
+		// for (int j = 0; j < 4 * ROOMS_COUNT; j++) {
+		// PadlockList.add(j);
+		// }
+		// Collections.shuffle(PadlockList, generator);
 	}
 
 	private int randomColor() {
@@ -83,19 +83,19 @@ public class SceneProvider {
 	private void onPopulateCastle() {
 		for (int i = 0; i < ROOMS_COUNT; i++) {
 			AllRooms[i] = new BasicScene(i, randomColor(), randomColor());
-//			AllRooms[i].setRandomBuddies((Integer) PadlockList.get(3 * i),
-//					(Integer) PadlockList.get(3 * i + 1),
-//					(Integer) PadlockList.get(3 * i + 2), (Integer) PadlockList.get(3 * i + 3));
+			// AllRooms[i].setRandomBuddies((Integer) PadlockList.get(3 * i),
+			// (Integer) PadlockList.get(3 * i + 1),
+			// (Integer) PadlockList.get(3 * i + 2), (Integer) PadlockList.get(3
+			// * i + 3));
 			AllRooms[i].setValues(ScreenWidth);
 		}
-		
-//		for (int i = 0; i < ROOMS_COUNT; i++) {
-//			AllRooms[i].topKey = PadlockList.get(4*i);
-//			AllRooms[i].middleUpKey = PadlockList.get(4*i+1);
-//			AllRooms[i].middleDownKey = PadlockList.get(4*i+2);
-//			AllRooms[i].bottomKey = PadlockList.get(4*i+3);
-//		}
+
+		// for (int i = 0; i < ROOMS_COUNT; i++) {
+		// AllRooms[i].topKey = PadlockList.get(4*i);
+		// AllRooms[i].middleUpKey = PadlockList.get(4*i+1);
+		// AllRooms[i].middleDownKey = PadlockList.get(4*i+2);
+		// AllRooms[i].bottomKey = PadlockList.get(4*i+3);
+		// }
 	}
-	
 
 }

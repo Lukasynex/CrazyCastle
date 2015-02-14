@@ -66,7 +66,7 @@ public class Character {
 		UpdatePos();
 		switch (type) {
 		case LEFTWALK: {
-			if(CurrentCharacterEntity.getX()<0)
+			if (CurrentCharacterEntity.getX() < 0)
 				return;
 			CurrentCharacterEntity
 					.setX(CurrentCharacterEntity.getX() - STEP_DX);
@@ -76,7 +76,8 @@ public class Character {
 			break;
 		}
 		case RIGHTWALK: {
-			if(CurrentCharacterEntity.getX() > CastleEngine.ScreenWidth-WTF_OFFSET)
+			if (CurrentCharacterEntity.getX() > CastleEngine.ScreenWidth
+					- WTF_OFFSET)
 				return;
 			CurrentCharacterEntity
 					.setX(CurrentCharacterEntity.getX() + STEP_DX);
@@ -151,6 +152,6 @@ public class Character {
 
 	public void onRestart() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
