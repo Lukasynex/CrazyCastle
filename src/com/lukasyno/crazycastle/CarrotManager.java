@@ -35,7 +35,7 @@ public class CarrotManager {
 		view.setBackgroundColor(Color.YELLOW);
 	}
 
-	public float AbsDiff(float x, float y) {
+	public static float AbsDiff(float x, float y) {
 		return (x > y) ? (x - y) : (y - x);
 	}
 

@@ -3,28 +3,28 @@
 android:oneshot="false"
 >
 <item
-android:drawable="@drawable/invisible_r_01"
+android:drawable="@drawable/invisible_l_01"
 android:duration="85"/>
 <item
-android:drawable="@drawable/invisible_r_02"
+android:drawable="@drawable/invisible_l_02"
 android:duration="85"/>
 <item
-android:drawable="@drawable/invisible_r_03"
+android:drawable="@drawable/invisible_l_03"
 android:duration="85"/>
 <item
-android:drawable="@drawable/invisible_r_04"
+android:drawable="@drawable/invisible_l_04"
 android:duration="85"/>
 <item
-android:drawable="@drawable/invisible_r_05"
+android:drawable="@drawable/invisible_l_05"
 android:duration="85"/>
 <item
-android:drawable="@drawable/invisible_r_06"
+android:drawable="@drawable/invisible_l_06"
 android:duration="85"/>
 <item
-android:drawable="@drawable/invisible_r_07"
+android:drawable="@drawable/invisible_l_07"
 android:duration="85"/>
 <item
-android:drawable="@drawable/invisible_r_08"
+android:drawable="@drawable/invisible_l_08"
 android:duration="85"/>
 
 

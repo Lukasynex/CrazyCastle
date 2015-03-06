@@ -212,6 +212,15 @@ public class MainActivity extends Activity {
 				character.setWalkStatus(GESTURE.RIGHTWALK);
 			}
 		}
+		if (event.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN) {
+			character.setAnimation(GESTURE.TRANSPARENT);
+			
+		}else{
+			if(character.DirectionLeft)
+				character.setAnimation(GESTURE.LEFTWALK);
+			else
+				character.setAnimation(GESTURE.RIGHTWALK);
+		}
 		return true;
 	}
 
@@ -261,8 +270,13 @@ public class MainActivity extends Activity {
 		if (carrotManager.CollidesWith(character.CurrentCharacterEntity) && carrotManager.isVisible()) {
 			carrotManager.DetachCarrot(sceneProvider.getCurrentScene().ID);
 			carrotManager.update();
-			
 		}
+		if(character.CollidesWith(evilBugs.getEvilEntity())){
+			if(character.CHARACTER_VISIBILITY){
+				character.onDeath();
+			}
+		}
+		
 		evilBugs.EvilWalk();
 		
 	}

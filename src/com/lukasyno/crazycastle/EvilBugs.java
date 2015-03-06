@@ -79,7 +79,9 @@ public class EvilBugs {
 //
 //		}
 	}
-
+	public ImageView getEvilEntity(){
+		return (isEvilLeft) ? EvilRotateLeft : EvilRotateRight;
+	}
 	private void stopAnimation() {
 		EvilLeftAnimation.stop();
 		EvilRightAnimation.stop();
