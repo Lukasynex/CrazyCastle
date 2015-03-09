@@ -2,8 +2,9 @@ package com.lukasyno.crazycastle;
 
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.Handler;
 import android.widget.ImageView;
+
+import com.lukasyno.crazycastle.R;
 
 public class EvilBugs {
 	private Activity context;

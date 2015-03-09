@@ -1,8 +1,12 @@
 package com.lukasyno.crazycastle;
 
 import android.graphics.Color;
+import android.graphics.Point;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.lukasyno.crazycastle.MainActivity;
+import com.lukasyno.crazycastle.R;
 
 public class CarrotManager {
 	private static final int WTF_OFFSET_FOR_CARROT = 60;
@@ -59,7 +63,7 @@ public class CarrotManager {
 		SceneVisiblePoints[i].x = WTF_OFFSET_FOR_CARROT
 				+ context.generator.nextInt(CastleEngine.ScreenWidth
 						- WTF_OFFSET_FOR_CARROT);
-		SceneVisiblePoints[i].y = getRandomStage();
+		SceneVisiblePoints[i].y = (int) getRandomStage();
 		Visibility = false;
 	}
 
@@ -70,7 +74,7 @@ public class CarrotManager {
 				collider.getY(), carrot.getY()) < 150);
 	}
 
-	private float getRandomStage() {
+	private int getRandomStage() {
 		int i = context.generator.nextInt(3);
 		switch (i) {
 		case 0:

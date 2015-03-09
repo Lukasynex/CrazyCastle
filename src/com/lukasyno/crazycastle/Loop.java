@@ -2,6 +2,8 @@ package com.lukasyno.crazycastle;
 
 import android.os.Handler;
 
+import com.lukasyno.crazycastle.MainActivity;
+
 public class Loop {
 	private static boolean isStarted = false;
 	private static Handler handler = new Handler();

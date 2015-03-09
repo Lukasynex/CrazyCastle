@@ -2,9 +2,9 @@ package com.lukasyno.crazycastle;
 
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+
+import com.lukasyno.crazycastle.R;
 
 public class Character {
 	private Activity context = null;

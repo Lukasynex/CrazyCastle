@@ -1,11 +1,8 @@
 package com.lukasyno.crazycastle;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -14,11 +11,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.DecelerateInterpolator;
+
+import com.lukasyno.crazycastle.R;
 
 public class CastleEngine extends View {
 
@@ -194,15 +188,3 @@ public class CastleEngine extends View {
 
 }
 
-// TODO:isolate door and also create stairs
-class PointAndStage {
-	int DoorStart;
-	int DoorEnd;
-	int Stage;
-
-	public PointAndStage(int dS, int dE, int S) {
-		DoorStart = dS;
-		DoorEnd = dE;
-		Stage = S;
-	}
-}

@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 
 import com.lukasyno.crazycastle.Character.GESTURE;
 
+
 /**
  * TODO: splash screen oraz wygodne menu naprawić przechodzenie przez drzwi -
  * nie randomowo tylko ma być to cykl Hamiltona wygenerować klasę LevelManager,
