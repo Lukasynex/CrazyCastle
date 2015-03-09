@@ -6,13 +6,17 @@ public class Loop {
 	private static boolean isStarted = false;
 	private static Handler handler = new Handler();
 	private static MainActivity activity;
+	public static boolean isActive = true;
 
 	private static Runnable stepTimer = new Runnable() {
 		@Override
 		public void run() {
-			activity.LoopActions();
-			handler.postDelayed(this, 10);
+			if (isActive) {
+				activity.LoopActions();
+				handler.postDelayed(this, 10);
+			}
 		}
+
 	};
 
 	public static void start(MainActivity view) {

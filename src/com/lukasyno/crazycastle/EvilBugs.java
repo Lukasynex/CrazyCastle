@@ -22,7 +22,7 @@ public class EvilBugs {
 	private static final int RUN = 20;
 	private static final int WTF_OFFSET = 50;
 	private int currentStage = 2;
-
+	private float start_X, start_Y;
 	public void setCurrentStage(int i) {
 		currentStage = Math.abs(i % 3);
 	}
@@ -33,7 +33,8 @@ public class EvilBugs {
 		EvilRotateRight = (ImageView) context.findViewById(R.id.Evil_Mirror);
 		EvilRotateLeft = (ImageView) context.findViewById(R.id.Evil);
 		EvilRotateRight.setY(Character.DEATH_ZONE);
-		EvilRotateRight.setY(Character.DEATH_ZONE);
+		
+//		EvilRotateRight.setY(Character.DEATH_ZONE);
 		setupAnimation();
 	}
 
@@ -73,11 +74,6 @@ public class EvilBugs {
 					isEvilLeft = true;
 			}
 			startAnimation();
-//		} else {
-//			EvilRotateRight.setVisibility(ImageView.INVISIBLE);
-//			EvilRotateLeft.setVisibility(ImageView.INVISIBLE);
-//
-//		}
 	}
 	public ImageView getEvilEntity(){
 		return (isEvilLeft) ? EvilRotateLeft : EvilRotateRight;
@@ -93,5 +89,7 @@ public class EvilBugs {
 	}
 
 	public void onRestart() {
+		//TODO:(5 + 6 * stage - 3) * CastleEngine.Floor_Height;
+		CurrentEvilEntity.setY((2 + 6 * 2) * CastleEngine.Floor_Height);
 	}
 }

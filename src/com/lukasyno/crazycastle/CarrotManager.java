@@ -92,11 +92,13 @@ public class CarrotManager {
 	public void update() {
 		TextView view = (TextView) context.findViewById(R.id.collectedCarrots);
 		view.setText("" + CollectedCarrots);
-
 	}
-
 	public boolean isVisible() {
 
 		return Visibility;
+	}
+	public void onRestart() {
+		CollectedCarrots =  0;
+		update();
 	}
 }

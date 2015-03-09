@@ -83,19 +83,9 @@ public class SceneProvider {
 	private void onPopulateCastle() {
 		for (int i = 0; i < ROOMS_COUNT; i++) {
 			AllRooms[i] = new BasicScene(i, randomColor(), randomColor());
-			// AllRooms[i].setRandomBuddies((Integer) PadlockList.get(3 * i),
-			// (Integer) PadlockList.get(3 * i + 1),
-			// (Integer) PadlockList.get(3 * i + 2), (Integer) PadlockList.get(3
-			// * i + 3));
+			
 			AllRooms[i].setValues(ScreenWidth);
 		}
-
-		// for (int i = 0; i < ROOMS_COUNT; i++) {
-		// AllRooms[i].topKey = PadlockList.get(4*i);
-		// AllRooms[i].middleUpKey = PadlockList.get(4*i+1);
-		// AllRooms[i].middleDownKey = PadlockList.get(4*i+2);
-		// AllRooms[i].bottomKey = PadlockList.get(4*i+3);
-		// }
 	}
 
 }

@@ -8,11 +8,14 @@ import android.widget.ImageView;
 
 public class Character {
 	private Activity context = null;
-	private double x;
-	private double y;
-	private double center_X;
-	private double center_Y;
+	private float x;
+	private float y;
+	private float center_X;
+	private float center_Y;
+	
 	public boolean CHARACTER_VISIBILITY = true;
+	public boolean CHARACTER_IS_DEAD = false;
+	
 	public boolean DirectionLeft = true;
 	private boolean animationStopped = true;
 	private ImageView CharacterRotateLeft;
@@ -28,12 +31,14 @@ public class Character {
 	private AnimationDrawable CharacterLeftInvisibleAnimation;
 	private AnimationDrawable CharacterRightInvisibleAnimation;
 	private AnimationDrawable CharacterRightDeathAnimation;
-
+	public int TTL = 100;
 	public GESTURE WalkStatus = GESTURE.STOP;
+	private float start_X;
+	private float start_Y;
 
 	private void UpdateCenterPosition() {
-		center_X = x + CurrentCharacterEntity.getWidth() / 2.0;
-		center_Y = y + CurrentCharacterEntity.getHeight() / 2.0;
+		center_X = (float) (x + CurrentCharacterEntity.getWidth() / 2.0);
+		center_Y = (float) (y + CurrentCharacterEntity.getHeight() / 2.0);
 	}
 
 	private void UpdatePos() {
@@ -50,7 +55,8 @@ public class Character {
 	private static final float STEP_DX = 1.5f;
 
 	private static final int RUN = 20;
-	private static final int WTF_OFFSET = 50;
+	public static final int WTF_OFFSET = 50;
+	public static final int DOOR_OFFSET = 50;
 	
 	public Character(Activity context) {
 		this.context = context;
@@ -67,17 +73,17 @@ public class Character {
 		CurrentCharacterEntity = CharacterRotateLeft;
 		CharacterRotateRight.setY(DEATH_ZONE);
 		setupAnimation();
-		setPosition(CharacterRotateLeft.getX(), CharacterRotateLeft.getY());
-
+		start_X = CharacterRotateLeft.getX();
+		start_Y = CharacterRotateLeft.getY();
+		setPosition(start_X, start_Y);
+		
 		InvisibleCharacterRotateLeft.setX(DEATH_ZONE);
-		InvisibleCharacterRotateLeft.setY(DEATH_ZONE);
 		InvisibleCharacterRotateRight.setX(DEATH_ZONE);
-		InvisibleCharacterRotateRight.setY(DEATH_ZONE);
 		CharacterDeathRight.setY(DEATH_ZONE);
 
 	}
 
-	private void setPosition(double dx, double dy) {
+	private void setPosition(float dx, float dy) {
 		x = dx;
 		y = dy;
 	}
@@ -88,7 +94,10 @@ public class Character {
 	}
 
 	public void walk(GESTURE type) {
+		if(CHARACTER_IS_DEAD)
+			return;
 		UpdatePos();
+		
 		switch (type) {
 		case LEFTWALK: {
 			if (CurrentCharacterEntity.getX() < 0)
@@ -159,20 +168,16 @@ public class Character {
 		case TRANSPARENT: {
 			CHARACTER_VISIBILITY = false;
 			CharacterRotateLeft.setX(DEATH_ZONE);
-			CharacterRotateLeft.setY(DEATH_ZONE);
 			CharacterRotateRight.setX(DEATH_ZONE);
-			CharacterRotateRight.setY(DEATH_ZONE);
 			if (DirectionLeft) {
 				InvisibleCharacterRotateLeft.setX((float) dx);
 				InvisibleCharacterRotateLeft.setY((float) dy);
 				InvisibleCharacterRotateRight.setX(DEATH_ZONE);
-				InvisibleCharacterRotateRight.setY(DEATH_ZONE);
 				CurrentCharacterEntity = InvisibleCharacterRotateLeft;
 			} else {
 				InvisibleCharacterRotateRight.setX((float) dx);
 				InvisibleCharacterRotateRight.setY((float) dy);
 				InvisibleCharacterRotateLeft.setX(DEATH_ZONE);
-				InvisibleCharacterRotateLeft.setY(DEATH_ZONE);
 				CurrentCharacterEntity = InvisibleCharacterRotateRight;
 			}
 			break;
@@ -223,30 +228,37 @@ public class Character {
 		float dx = CurrentCharacterEntity.getX();
 		float dy = CurrentCharacterEntity.getY();
 		InvisibleCharacterRotateRight.setX(DEATH_ZONE);
-		InvisibleCharacterRotateRight.setY(DEATH_ZONE);
 		InvisibleCharacterRotateLeft.setX(DEATH_ZONE);
-		InvisibleCharacterRotateLeft.setY(DEATH_ZONE);
 		CharacterRotateRight.setX(DEATH_ZONE);
-		CharacterRotateRight.setY(DEATH_ZONE);
 		CharacterRotateLeft.setX(DEATH_ZONE);
-		CharacterRotateLeft.setY(DEATH_ZONE);
 		CharacterDeathRight.setX(dx);
 		CharacterDeathRight.setY(dy);
 		CurrentCharacterEntity = CharacterDeathRight;
 		CharacterRightDeathAnimation.stop();
 		CharacterRightDeathAnimation.start();
-		
+
+		CHARACTER_VISIBILITY = false;
+		CHARACTER_IS_DEAD = true;	
 	}
 
 	public void onRestart() {
-		// TODO Auto-generated method stub
+		CharacterDeathRight.setY(DEATH_ZONE);
+		CharacterDeathRight.setX(DEATH_ZONE);
+		
+		CurrentCharacterEntity = CharacterRotateLeft;
+		CurrentCharacterEntity.setX(2*CharacterRotateLeft.getWidth());
+		CurrentCharacterEntity.setY(2*CastleEngine.Floor_Height);
 
+		CHARACTER_IS_DEAD = false;
+		CHARACTER_VISIBILITY =true;
+		TTL = 100;
 	}
 
 	public boolean CollidesWith(ImageView collider) {
+		UpdateCenterPosition();
 		return (CarrotManager.AbsDiff(collider.getX(),
-				CurrentCharacterEntity.getX()) < 20 && CarrotManager.AbsDiff(
-				collider.getY(), CurrentCharacterEntity.getY()) < 150);
+				center_X) < 20 && CarrotManager.AbsDiff(
+				collider.getY(), center_Y) < 100);
 	}
 
 }
